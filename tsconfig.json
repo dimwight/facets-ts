@@ -1,0 +1,23 @@
+{
+  "include": [
+    "src/lib/**/*",
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ],
+    "watch": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": false,
+    "allowUnreachableCode": true,
+    "alwaysStrict": true,
+    "strictNullChecks": false,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es5"
+  }
+}
