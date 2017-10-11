@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Core_1 = require("./Core");
 function newInstance(trace) {
     return new Facets();
 }
@@ -8,14 +9,14 @@ var Facets = /** @class */ (function () {
     function Facets() {
     }
     Facets.prototype.newTextualTarget = function (title, coupler) {
-        throw new Error('Not implemented for ' + title);
+        return new Core_1.TargetCore(title);
     };
     Facets.prototype.newTargetGroup = function (title) {
         var members = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             members[_i - 1] = arguments[_i];
         }
-        throw new Error('Not implemented for ' + title);
+        return new Core_1.TargetCore(title);
     };
     Facets.prototype.buildTargeterTree = function (targetTree) {
         throw new Error('Not implemented');

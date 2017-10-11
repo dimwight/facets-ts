@@ -1,3 +1,4 @@
+import {TargetCore} from './Core'
 export {Facets};
 export type SimpleState=string|boolean|number
 export interface Target{}
@@ -41,10 +42,10 @@ export function newInstance(trace:boolean):Facets{
 }
 class Facets{
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
-    throw new Error('Not implemented for '+title);
+    return new TargetCore(title);
   }
   newTargetGroup(title:string,...members:Target[]):Target{
-    throw new Error('Not implemented for '+title);
+    return new TargetCore(title);
   }
   buildTargeterTree(targetTree:Target):void{
     throw new Error('Not implemented');
