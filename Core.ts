@@ -1,3 +1,4 @@
+export interface Target{}
 export class TargetCore{
-  constructor(private title:String){}
+  constructor(private title:String,private members?:Target[]){}
 } 

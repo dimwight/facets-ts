@@ -1,7 +1,6 @@
-import {TargetCore} from './Core'
-export {Facets};
+import {Target,TargetCore} from './Core'
+export {Facets,Target};
 export type SimpleState=string|boolean|number
-export interface Target{}
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;
 }
@@ -45,7 +44,7 @@ class Facets{
     return new TargetCore(title);
   }
   newTargetGroup(title:string,...members:Target[]):Target{
-    return new TargetCore(title);
+    return new TargetCore(title,members);
   }
   buildTargeterTree(targetTree:Target):void{
     throw new Error('Not implemented');

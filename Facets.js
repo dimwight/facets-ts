@@ -16,7 +16,7 @@ var Facets = /** @class */ (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             members[_i - 1] = arguments[_i];
         }
-        return new Core_1.TargetCore(title);
+        return new Core_1.TargetCore(title, members);
     };
     Facets.prototype.buildTargeterTree = function (targetTree) {
         throw new Error('Not implemented');
