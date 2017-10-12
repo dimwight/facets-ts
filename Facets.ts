@@ -1,4 +1,4 @@
-import {Target,TargetCore} from './Core'
+import {Target,TargetCore,Targeter,Notifiable} from './Core'
 export {Facets,Target};
 export type SimpleState=string|boolean|number
 export interface TargetCoupler {
@@ -39,15 +39,32 @@ interface SelectingFramePolicy {
 export function newInstance(trace:boolean):Facets{
   return new Facets();
 }
+function trace(msg, thing){
+  console.info(msg)
+}
+
 class Facets{
+  private readonly notifiable:Notifiable={
+    notify(notice){
+      throw new Error('Not implemented');      
+    }
+  };
+  targeterTree:Targeter;
+  buildTargeterTree(targetTree:Target):void{
+		trace(" > Initial retargeting on ",targetTree);
+		this.targeterTree=(<TargetCore>targetTree).newTargeter();
+		this.targeterTree.setNotifiable(this.notifiable);
+		this.targeterTree.retarget(targetTree);
+		this.addTitleTargeters(this.targeterTree);
+  }
+  addTitleTargeters(t:Targeter){
+    
+  }
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
     return new TargetCore(title);
   }
   newTargetGroup(title:string,...members:Target[]):Target{
     return new TargetCore(title,members);
-  }
-  buildTargeterTree(targetTree:Target):void{
-    throw new Error('Not implemented');
   }
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
     throw new Error('Not implemented');

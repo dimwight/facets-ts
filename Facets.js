@@ -5,6 +5,9 @@ function newInstance(trace) {
     return new Facets();
 }
 exports.newInstance = newInstance;
+function trace(msg, thing) {
+    console.info(msg);
+}
 var Facets = /** @class */ (function () {
     function Facets() {
     }
@@ -19,7 +22,11 @@ var Facets = /** @class */ (function () {
         return new Core_1.TargetCore(title, members);
     };
     Facets.prototype.buildTargeterTree = function (targetTree) {
-        throw new Error('Not implemented');
+        trace(" > Initial retargeting on ", targetTree);
+        this.targeterTree = targetTree.newTargeter();
+        targeterTree.setNotifiable(notifiable);
+        targeterTree.retarget(targetTree);
+        addTitleTargeters(targeterTree);
     };
     Facets.prototype.attachFacet = function (title, facetUpdated) {
         throw new Error('Not implemented');
