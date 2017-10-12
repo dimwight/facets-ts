@@ -1,3 +1,6 @@
+export function trace(msg, thing){
+  console.info(msg,JSON.stringify(thing))
+}
 export interface Target{}
 export interface Targeter{
   setNotifiable(n:Notifiable)
@@ -20,6 +23,5 @@ export class TargeterCore implements Targeter{
   retarget(target:Target){
     this.target=target
   }
-  
 }
   

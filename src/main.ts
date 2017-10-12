@@ -1,21 +1,20 @@
-import * as Facets from '../Facets';
-
+import {Facets,TextualCoupler,newInstance} from '../Facets'
+import {Target} from '../Core'
 function trace(text){
   console.info('App > ' +text);
 }
-console.info( Facets.newInstance);
 const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
-const core : Facets.Facets = Facets.newInstance(true);
+const core : Facets = newInstance(true);
 
-function newTargetTree():Facets.Target{
+function newTargetTree():Target{
   const text='Some text';
   trace('.newTargetTree: text='+text);
-  const coupler:Facets.TextualCoupler={
+  const coupler:TextualCoupler={
     passText:text,
     targetStateUpdated : (title) => trace("coupler.stateUpdated: title=" + title),
   };
-  const first:Facets.Target=core.newTextualTarget(TITLE_FIRST,coupler),
-    second:Facets.Target=core.newTextualTarget(TITLE_SECOND,coupler);
+  const first:Target=core.newTextualTarget(TITLE_FIRST,coupler),
+    second:Target=core.newTextualTarget(TITLE_SECOND,coupler);
   return core.newTargetGroup('Textuals',first,second);
 }
 function buildLayout(){
