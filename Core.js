@@ -26,6 +26,9 @@ var TargeterCore = /** @class */ (function () {
             else
                 return _this.target_;
         };
+        this.elements = function () {
+            return _this.elements_;
+        };
     }
     TargeterCore.prototype.setNotifiable = function (Notifiable) {
     };

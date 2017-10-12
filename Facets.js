@@ -12,6 +12,7 @@ var Facets = /** @class */ (function () {
                 throw new Error('Not implemented');
             }
         };
+        this.titleTargeters = new Map();
     }
     Facets.prototype.buildTargeterTree = function (targetTree) {
         Core_1.trace(" > Initial retargeting on", targetTree.title);
@@ -22,7 +23,14 @@ var Facets = /** @class */ (function () {
         this.addTitleTargeters(this.targeterTree);
     };
     Facets.prototype.addTitleTargeters = function (t) {
-        throw new Error('Not implemented');
+        var _this = this;
+        var title = t.title();
+        this.titleTargeters.set(title, t);
+        var elements = t.elements();
+        Core_1.trace("> Added targeter: title=" + title + ": elements=", elements);
+        elements.forEach(function (e) {
+            _this.addTitleTargeters(e);
+        });
     };
     Facets.prototype.newTextualTarget = function (title, coupler) {
         return new Core_1.TargetCore(title);

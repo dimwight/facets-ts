@@ -21,6 +21,7 @@ export class TargetCore implements Target{
   }
 } 
 export class TargeterCore implements Targeter{
+  private elements_: Targeter[];
   private title_='Untargeted'
   private target_:Target
   setNotifiable(Notifiable){
@@ -33,6 +34,9 @@ export class TargeterCore implements Targeter{
   target=():Target=>{
     if(!this.target)throw new Error(this.title_);
     else return this.target_
+  }
+  elements=():Targeter[]=>{
+    return this.elements_
   }
 }
   
