@@ -28,9 +28,7 @@ var Facets = /** @class */ (function () {
         this.titleTargeters.set(title, t);
         var elements = t.elements();
         Core_1.trace("> Added targeter: title=" + title + ": elements=", elements);
-        elements.forEach(function (e) {
-            _this.addTitleTargeters(e);
-        });
+        elements.forEach(function (e) { return _this.addTitleTargeters(e); });
     };
     Facets.prototype.newTextualTarget = function (title, coupler) {
         return new Core_1.TargetCore(title);

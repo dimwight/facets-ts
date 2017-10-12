@@ -60,10 +60,8 @@ class Facets{
 		this.titleTargeters.set(title,t);
 		const elements:Targeter[]=t.elements();
 		trace("> Added targeter: title="+title+": elements=",elements);
-		elements.forEach((e)=>{
-        this.addTitleTargeters(e)
-      });
-	  }
+    elements.forEach((e)=>this.addTitleTargeters(e))
+  }
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
     return new TargetCore(title);
   }
