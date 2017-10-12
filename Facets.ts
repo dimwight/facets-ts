@@ -47,9 +47,9 @@ class Facets{
   }
   targeterTree:Targeter
   buildTargeterTree(targetTree:Target):void{
-		trace(" > Initial retargeting on ",targetTree.title);
+		trace(" > Initial retargeting on",targetTree.title);
     this.targeterTree=(<TargetCore>targetTree).newTargeter();
-    trace('buildTargeterTree',this.targeterTree)
+    trace('.buildTargeterTree',this.targeterTree)
 		this.targeterTree.setNotifiable(this.notifiable);
 		this.targeterTree.retarget(targetTree);
 		this.addTitleTargeters(this.targeterTree);
