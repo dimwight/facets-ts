@@ -46,6 +46,7 @@ class Facets{
     }
   }
   targeterTree:Targeter
+  titleTargeters=new Map<string,Targeter>()
   buildTargeterTree(targetTree:Target):void{
 		trace(" > Initial retargeting on",targetTree.title);
     this.targeterTree=(<TargetCore>targetTree).newTargeter();
@@ -55,8 +56,12 @@ class Facets{
 		this.addTitleTargeters(this.targeterTree);
   }
   addTitleTargeters(t:Targeter){
-    throw new Error('Not implemented');          
-  }
+		const title=t.title();
+		this.titleTargeters.set(title,t);
+		Targeter[]elements=t.elements();
+		trace("> Added targeter: title="+title+": elements="+elements.length);
+		for(Targeter e:elements)addTitleTargeters(e);
+	  }
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
     return new TargetCore(title);
   }

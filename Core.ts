@@ -9,6 +9,7 @@ export interface Targeter{
   target:()=>Target
   setNotifiable(n:Notifiable)
   retarget(t:Target)
+  elements:()=>Targeter[]
 }
 export interface Notifiable{
   notify(notice)
