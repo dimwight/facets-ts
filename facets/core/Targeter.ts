@@ -1,30 +1,11 @@
-export function trace(msg, thing){
-  console.info('Facets'+msg,JSON.stringify(thing,null,1))
-}
-export interface Target{
-  title:string
-  elements:()=>Target[]
-  }
-export interface Notifiable{
-  notify(notice)
-}
+import {Notifiable,Target,TargetCore} from './Core'
 export interface Targeter extends Notifiable{
-  title:()=>string
-  target:()=>Target
+  title():string
+  target():Target
   setNotifiable(n:Notifiable)
   retarget(t:Target)
-  elements:()=>Targeter[]
+  elements():Targeter[]
 }
-
-export class TargetCore implements Target{
-  constructor(readonly title:string,readonly members?:Target[]){}
-  newTargeter():Targeter{
-    return new TargeterCore()
-  }
-  elements=():Target[]=>{
-    return []
-  }
-} 
 export class TargeterCore implements Targeter{
   private elements_: Targeter[];
   private title_='Untargeted'
@@ -39,11 +20,15 @@ export class TargeterCore implements Targeter{
     if(!target)throw new Error('Missing target')
     this.target_=target
     const targets:Target[]=target.elements();
-    if(!this.elements_)this.elements_=targets.map<Targeter>((target)=>{
+    if(!this.elements_)this.elements_=targets.map<Targeter>(target=>{
         let element=(<TargetCore>target).newTargeter();
         element.setNotifiable(this);
         return element;
       })
+    if(targets.length===this.elements_.length)
+      this.elements_.forEach((e,at) =>e.retarget(targets[at]));
+    if((<TargetCore>target).notifiesTargeter())target.setNotifiable(this);
+      
   }
   title=()=>this.target?this.target_.title:this.title_ 
   target=():Target=>{
@@ -54,4 +39,3 @@ export class TargeterCore implements Targeter{
     return this.elements_
   }
 }
-  

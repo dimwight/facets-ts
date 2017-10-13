@@ -1,10 +1,15 @@
-import {Facets,TextualCoupler,newInstance} from '../Facets'
-import {Target} from '../Core'
+import {
+  Facets,
+  TextualCoupler,
+} from '../facets/_export'
+import {
+  Target
+} from '../facets/core/_export'
 function trace(text){
   console.info('App > ' +text);
 }
 const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
-const core : Facets = newInstance(true);
+const core : Facets = Facets.newInstance(true);
 
 function newTargetTree():Target{
   const text='Some text';

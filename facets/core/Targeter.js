@@ -1,20 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function trace(msg, thing) {
-    console.info('Facets' + msg, JSON.stringify(thing, null, 1));
-}
-exports.trace = trace;
-var TargetCore = /** @class */ (function () {
-    function TargetCore(title, members) {
-        this.title = title;
-        this.members = members;
-    }
-    TargetCore.prototype.newTargeter = function () {
-        return new TargeterCore();
-    };
-    return TargetCore;
-}());
-exports.TargetCore = TargetCore;
 var TargeterCore = /** @class */ (function () {
     function TargeterCore() {
         var _this = this;
@@ -30,12 +15,29 @@ var TargeterCore = /** @class */ (function () {
             return _this.elements_;
         };
     }
+    TargeterCore.prototype.notify = function (notice) {
+        throw new Error('Not implemented in TargeterCore');
+    };
     TargeterCore.prototype.setNotifiable = function (Notifiable) {
     };
     TargeterCore.prototype.retarget = function (target) {
+        var _this = this;
+        if (!target)
+            throw new Error('Missing target');
         this.target_ = target;
+        var targets = target.elements();
+        if (!this.elements_)
+            this.elements_ = targets.map(function (target) {
+                var element = target.newTargeter();
+                element.setNotifiable(_this);
+                return element;
+            });
+        if (targets.length === this.elements_.length)
+            this.elements_.forEach(function (e, at) { return e.retarget(targets[at]); });
+        if (target.notifiesTargeter())
+            target.setNotifiable(this);
     };
     return TargeterCore;
 }());
 exports.TargeterCore = TargeterCore;
-//# sourceMappingURL=Core.js.map
+//# sourceMappingURL=Targeter.js.map

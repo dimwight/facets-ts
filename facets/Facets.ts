@@ -1,5 +1,4 @@
-import {trace,Target,TargetCore,Targeter,Notifiable} from './Core'
-export {Facets,Target};
+import {trace,Target,TargetCore,Targeter,Notifiable} from './core/_export'
 export type SimpleState=string|boolean|number
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;
@@ -36,10 +35,10 @@ interface SelectingFramePolicy {
   frame?: Target;
   getIndexedContent?: any;
 }
-export function newInstance(trace:boolean):Facets{
-  return new Facets();
-}
-class Facets{
+export class Facets{
+  static newInstance(trace:boolean):Facets{
+    return new Facets();
+  }
   private readonly notifiable:Notifiable={
     notify(notice){
       throw new Error('Not implemented');      

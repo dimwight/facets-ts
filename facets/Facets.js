@@ -1,10 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Core_1 = require("./Core");
-function newInstance(trace) {
-    return new Facets();
-}
-exports.newInstance = newInstance;
+var _export_1 = require("./core/_export");
 var Facets = /** @class */ (function () {
     function Facets() {
         this.notifiable = {
@@ -14,10 +10,13 @@ var Facets = /** @class */ (function () {
         };
         this.titleTargeters = new Map();
     }
+    Facets.newInstance = function (trace) {
+        return new Facets();
+    };
     Facets.prototype.buildTargeterTree = function (targetTree) {
-        Core_1.trace(" > Initial retargeting on", targetTree.title);
+        _export_1.trace(" > Initial retargeting on", targetTree.title);
         this.targeterTree = targetTree.newTargeter();
-        Core_1.trace('.buildTargeterTree', this.targeterTree);
+        _export_1.trace('.buildTargeterTree', this.targeterTree);
         this.targeterTree.setNotifiable(this.notifiable);
         this.targeterTree.retarget(targetTree);
         this.addTitleTargeters(this.targeterTree);
@@ -27,18 +26,18 @@ var Facets = /** @class */ (function () {
         var title = t.title();
         this.titleTargeters.set(title, t);
         var elements = t.elements();
-        Core_1.trace("> Added targeter: title=" + title + ": elements=", elements);
+        _export_1.trace("> Added targeter: title=" + title + ": elements=", elements);
         elements.forEach(function (e) { return _this.addTitleTargeters(e); });
     };
     Facets.prototype.newTextualTarget = function (title, coupler) {
-        return new Core_1.TargetCore(title);
+        return new _export_1.TargetCore(title);
     };
     Facets.prototype.newTargetGroup = function (title) {
         var members = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             members[_i - 1] = arguments[_i];
         }
-        return new Core_1.TargetCore(title, members);
+        return new _export_1.TargetCore(title, members);
     };
     Facets.prototype.attachFacet = function (title, facetUpdated) {
         throw new Error('Not implemented');

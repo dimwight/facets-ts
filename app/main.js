@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Facets_1 = require("../Facets");
+var _export_1 = require("../facets/_export");
 function trace(text) {
     console.info('App > ' + text);
 }
 var TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
-var core = Facets_1.newInstance(true);
+var core = _export_1.Facets.newInstance(true);
 function newTargetTree() {
     var text = 'Some text';
     trace('.newTargetTree: text=' + text);
