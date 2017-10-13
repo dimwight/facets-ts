@@ -6,7 +6,7 @@ import {
   Target
 } from '../facets/core/_export'
 function trace(text){
-  console.info('App > ' +text);
+  if(false)console.info('App > ' +text);
 }
 const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
 const core : Facets = Facets.newInstance(true);

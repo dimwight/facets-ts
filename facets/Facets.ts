@@ -49,14 +49,14 @@ export class Facets{
   titleTargeters=new Map<string,Targeter>()
   buildTargeterTree(targetTree:Target):void{
 		trace(" > Initial retargeting on",targetTree.title);
-    this.targeterTree=(<TargetCore>targetTree).newTargeter();
-		this.targeterTree.setNotifiable(this.notifiable);
-		this.targeterTree.retarget(targetTree);
-	  trace('.buildTargeterTree',this.targeterTree.title)
-	  this.addTitleTargeters(this.targeterTree);
+    let t=this.targeterTree=(<TargetCore>targetTree).newTargeter();
+		t.setNotifiable(this.notifiable);
+		t.retarget(targetTree);
+	  trace('.buildTargeterTree',t.title)
+    this.addTitleTargeters(t);
   }
   addTitleTargeters(t:Targeter){
-		const title=t.title();
+		let title=t.title();
 		this.titleTargeters.set(title,t);
 		const elements:Targeter[]=t.elements();
 		trace("> Added targeter: title="+title+": elements=",elements);
