@@ -20,4 +20,5 @@ var NotifyingCore = /** @class */ (function () {
     };
     return NotifyingCore;
 }());
+exports.NotifyingCore = NotifyingCore;
 //# sourceMappingURL=Notifying.js.map

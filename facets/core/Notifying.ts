@@ -1,13 +1,13 @@
 export interface Notifiable{
   notify(notice)
 }
-interface Notifying extends Notifiable{
+export interface Notifying extends Notifiable{
   setNotifiable(n:Notifiable)
   notifiable():Notifiable
   elements():Notifying[]
   notifyParent()
 } 
-class NotifyingCore implements Notifying{
+export class NotifyingCore implements Notifying{
   setNotifiable(n: Notifiable) {
     throw new Error("Method not implemented.");
   }
