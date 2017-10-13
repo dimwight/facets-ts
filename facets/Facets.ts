@@ -50,10 +50,10 @@ export class Facets{
   buildTargeterTree(targetTree:Target):void{
 		trace(" > Initial retargeting on",targetTree.title);
     this.targeterTree=(<TargetCore>targetTree).newTargeter();
-    trace('.buildTargeterTree',this.targeterTree)
 		this.targeterTree.setNotifiable(this.notifiable);
 		this.targeterTree.retarget(targetTree);
-		this.addTitleTargeters(this.targeterTree);
+	  trace('.buildTargeterTree',this.targeterTree.title)
+	  this.addTitleTargeters(this.targeterTree);
   }
   addTitleTargeters(t:Targeter){
 		const title=t.title();
@@ -69,6 +69,8 @@ export class Facets{
     return new TargetCore(title,members);
   }
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
+    let t=this.titleTargeters.get(title)
+    trace('.attachFacet title='+title,t)
     throw new Error('Not implemented');
   }
   updateTargetState(title:string,update:SimpleState):void{

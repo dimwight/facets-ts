@@ -29,12 +29,14 @@ export class TargeterCore implements Targeter{
       this.elements_.forEach((e,at) =>e.retarget(targets[at]))
     if((<TargetCore>target).notifiesTargeter())target.setNotifiable(this)
   }
-  title=()=>this.target?this.target_.title:this.title_ 
-  target=():Target=>{
-    if(!this.target)throw new Error(this.title_)
+  title(){
+    return this.target_?this.target_.title:this.title_ 
+  }
+  target():Target{
+    if(!this.target_)throw new Error(this.title_)
     else return this.target_
   }
-  elements=():Targeter[]=>{
+  elements():Targeter[]{
     return this.elements_
   }
 }
