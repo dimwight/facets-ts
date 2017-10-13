@@ -1,4 +1,4 @@
-import {Notifiable,Target,TargetCore} from './Core'
+import {Notifiable,Target,TargetCore} from './_export'
 export interface Targeter extends Notifiable{
   title():string
   target():Target

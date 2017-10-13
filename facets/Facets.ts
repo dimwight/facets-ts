@@ -1,4 +1,5 @@
-import {trace,Target,TargetCore,Targeter,Notifiable} from './core/_export'
+import {Target,TargetCore,Targeter,Notifiable} from './core/_export'
+import {trace} from './bits/_export'
 export type SimpleState=string|boolean|number
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;
