@@ -7,21 +7,20 @@ export interface Notifying extends Notifiable{
   elements():Notifying[]
   notifyParent()
 } 
-export class NotifyingCore implements Notifying{
+export abstract class NotifyingCore implements Notifying{
+  private notifiable_: Notifiable
   setNotifiable(n: Notifiable) {
-    throw new Error("Method not implemented.");
+    this.notifiable_=n
   }
   notifiable(): Notifiable {
-    throw new Error("Method not implemented.");
-  }
-  elements(): Notifying[] {
-    throw new Error("Method not implemented.");
+    return this.notifiable_
   }
   notifyParent() {
-    throw new Error("Method not implemented.");
+    this.notifiable_.notify(this)
   }
   notify(notice: any) {
     throw new Error("Method not implemented.");
   }
+  abstract elements():Notifying[]
 }
   
