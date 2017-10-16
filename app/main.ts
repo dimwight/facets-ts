@@ -5,7 +5,7 @@ import {
 import {
   Target
 } from '../facets/core/_export'
-import {traceThing} from '../facets/bits/_export';
+import {traceThing,shiftArrayElement} from '../facets/bits/_export';
 function trace(text){
   if(false)console.info('App > ' +text);
 }
@@ -28,7 +28,8 @@ function buildLayout(){
   core.attachFacet(TITLE_FIRST,update=>trace('Facet updating with '+update));
 }
 function main(){
-  if(true)throw new Error('Not implemented')
+  shiftArrayElement([0,1,2,3,4],2,true);
+  if(true)return;
   trace('Building surface');
   core.buildTargeterTree(newTargetTree());
   trace('Built targets, created targeters');
