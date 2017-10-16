@@ -5,6 +5,7 @@ import {
 import {
   Target
 } from '../facets/core/_export'
+import {traceThing} from '../facets/bits/_export';
 function trace(text){
   if(false)console.info('App > ' +text);
 }
@@ -26,12 +27,16 @@ function buildLayout(){
   trace('.buildLayout');
   core.attachFacet(TITLE_FIRST,update=>trace('Facet updating with '+update));
 }
-trace('Building surface');
-core.buildTargeterTree(newTargetTree());
-trace('Built targets, created targeters');
-buildLayout();
-trace('Attached and laid out facets');
-trace('Surface built');
-core.updateTargetState(TITLE_FIRST,'Some updated text');
+function main(){
+  if(true)throw new Error('Not implemented')
+  trace('Building surface');
+  core.buildTargeterTree(newTargetTree());
+  trace('Built targets, created targeters');
+  buildLayout();
+  trace('Attached and laid out facets');
+  trace('Surface built');
+  core.updateTargetState(TITLE_FIRST,'Some updated text');  
+}
+main()
 
 
