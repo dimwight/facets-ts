@@ -5,6 +5,12 @@ export function traceThing(msg:string, thing) {
       return value
     }, 1))
 }
+/**
+ * 
+ * @param a the array
+ * @param index of the element to be swap
+ * @param down the direction of the swap
+ */
 export function swapArrayElement(a: any[], index: number, down: boolean) {
   traceThing('^swapArrayElement', { index: index, down: down })
   let lowerFrom = down?index:index+1, upperFrom = down?index-1:index;
@@ -13,9 +19,11 @@ export function swapArrayElement(a: any[], index: number, down: boolean) {
   [index,lowerFrom,upperFrom,lowerTo,upperTo].forEach((n,at)=>{
     if(n<0||n>=a.length)throw new Error(`Bad ${names[at]}=${n}`)
   })
-  traceThing('^swapArrayElement', { lowerFrom: lowerFrom, upperFrom: upperFrom,
+  traceThing('swapArrayElement', { lowerFrom: lowerFrom, upperFrom: upperFrom,
      lowerTo: lowerTo, upperTo: upperTo })
   let top = a.slice(0, lowerTo), tail = a.slice(upperTo+1),
-    shifted = top.concat(a[lowerFrom],a[upperFrom],tail)
+    shifted = top.concat(a[lowerFrom],a[upperFrom],tail);
   traceThing('swapArrayElement~', false?{top:top,tail:tail}:shifted)
+  a.splice(0,a.length,shifted);
+  traceThing('swapArrayElement~~', a)
 }
