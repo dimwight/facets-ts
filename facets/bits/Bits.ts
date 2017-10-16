@@ -9,6 +9,10 @@ export function swapArrayElement(a: any[], index: number, down: boolean) {
   traceThing('^swapArrayElement', { index: index, down: down })
   let lowerFrom = down?index:index+1, upperFrom = down?index-1:index;
   let lowerTo = down ? index-1 : index,upperTo = down ? index : index+1;
+  const names=['index','lowerFrom','upperFrom','lowerTo','upperTo'];
+  [index,lowerFrom,upperFrom,lowerTo,upperTo].forEach((n,at)=>{
+    if(n<0||n>=a.length)throw new Error(`Bad ${names[at]}=${n}`)
+  })
   traceThing('^swapArrayElement', { lowerFrom: lowerFrom, upperFrom: upperFrom,
      lowerTo: lowerTo, upperTo: upperTo })
   let top = a.slice(0, lowerTo), tail = a.slice(upperTo+1),
