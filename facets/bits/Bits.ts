@@ -16,7 +16,7 @@ export function swapArrayElement(a: any[], index: number, down: boolean) {
    lowerTo = down ? index-1 : index,upperTo = down ? index : index+1;
   const names=['index','lowerFrom','upperFrom','lowerTo','upperTo'];
   [index,lowerFrom,upperFrom,lowerTo,upperTo].forEach((n,at)=>{
-    if(n<0||n>=a.length)throw new Error(`Value out of range: ${names[at]}=${n}`)
+    if(n<0||n>=a.length)throw new Error(`Index out of range: ${names[at]}=${n}`)
   })
   traceThing('^swapArrayElement', { lowerFrom: lowerFrom, upperFrom: upperFrom,
      lowerTo: lowerTo, upperTo: upperTo })
