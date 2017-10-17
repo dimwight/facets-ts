@@ -28,7 +28,7 @@ function buildLayout(){
   core.attachFacet(TITLE_FIRST,update=>trace('Facet updating with '+update));
 }
 function main(){
-  swapArrayElement([0,1,2,3,4],3,false);
+  swapArrayElement([0,1,2],'1',false);
   if(true)return;
   trace('Building surface');
   core.buildTargeterTree(newTargetTree());
