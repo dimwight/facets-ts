@@ -29,8 +29,8 @@ export function swapArrayElement(source: any[], index, down) {
   /* 
   1. Define source indices of elements to be swapped.
   2. Define output indices to swap them to.
-  3. Split the source array without the swap indices.
-  4. Insert the swapped elements.
+  3. Split the source array around the swap indices.
+  4. Reassemble with the swapped elements.
   */
 
   // Debug?
