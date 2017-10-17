@@ -1,10 +1,10 @@
 import {Targeter,TargeterCore,Notifying,NotifyingCore} from './_export';
 export interface Target extends Notifying{
-  title:string;
+  title():string;
   elements():Target[];
 }
 export class TargetCore extends NotifyingCore implements Target {
-  constructor(readonly title:string,readonly members?:Target[]){
+  constructor(readonly title_:string,readonly members?:Target[]){
     super();
   }
   notifiesTargeter():boolean{
@@ -14,6 +14,9 @@ export class TargetCore extends NotifyingCore implements Target {
     return new TargeterCore();
   }
   elements():Target[]{
-    return [];
+    return this.members?this.members:[];
+  }
+  title(){
+    return this.title_;
   }
 }

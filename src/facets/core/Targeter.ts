@@ -31,7 +31,7 @@ export class TargeterCore implements Targeter{
     if((<TargetCore>target).notifiesTargeter())target.setNotifiable(this);
   }
   title(){
-    return this.target_?this.target_.title:this.title_ ;
+    return this.target_?this.target_.title():this.title_;
   }
   target():Target{ 
     if(!this.target_)throw new Error(this.title_);

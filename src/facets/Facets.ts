@@ -70,6 +70,7 @@ export class Facets{
   }
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
     let t=this.titleTargeters.get(title);
+    if(!t)throw new Error('Missing t for '+title);
     traceThing('.attachFacet title='+title,t);
     throw new Error('Not implemented');
   }

@@ -5,20 +5,20 @@
  */
 export function traceThing(top:string, thing) {
 
-  //Allow for quick disable
-  if(top.charAt(0)=='^')return;
+  // Allow for quick disable
+  if(top.charAt(0)==='^')return;
 
-  //Allow for callback eg to find and kill circular references
-  const callback=true ? null : (key, value) => {
-    console.log(key);
-    return value
-  }
+  // Allow for callback eg to find and kill circular references
+  const callback=false ? null : (key, value) => {
+    if(false)console.log(key);
+    return 'notifiable_|elements_'.includes(key)?key:value;
+  };
   
-  //Construct body
+  // Construct body
   const tail=JSON.stringify(thing, callback, 1);
   
-  //Issue complete message
-  console.log(top, tail)
+  // Issue complete message
+  console.log(top, tail);
 }
 /** Swaps an array element with one of its neighbours. 
  * @param source the array to modify
@@ -33,42 +33,42 @@ export function swapArrayElement(source: any[], index, down) {
   4. Reassemble with the swapped elements.
   */
 
-  // Debug?
-  traceThing('^swapArrayElement', { index: index, down: down })
+  //  Debug?
+  traceThing('^swapArrayElement', { index: index, down: down });
 
-  // Guard against string!
+  //  Guard against string!
   const indexNum=Number(index);
 
-  //Define source and target indices
+  // Define source and target indices
   const lowerFrom = down?indexNum:indexNum+1,
     upperFrom = down?indexNum-1:indexNum;
   const lowerTo = down ? indexNum-1 : indexNum,
     upperTo = down ? indexNum : indexNum+1;
 
-  // Check for out of bounds
+  //  Check for out of bounds
   const names=['index','lowerFrom','upperFrom','lowerTo','upperTo'];
   [indexNum,lowerFrom,upperFrom,lowerTo,upperTo].forEach((n,at)=>{
 
-    //Index out of bounds?
-    if(n<0||n>=source.length)throw new Error(`Index out of range: ${names[at]}=${n}`)
-  })
+      // Index out of bounds?
+      if(n<0||n>=source.length)throw new Error(`Index out of range: ${names[at]}=${n}`);
+    });
 
-  // Debug?
+  //  Debug?
   traceThing('^swapArrayElement', { lowerFrom: lowerFrom, upperFrom: upperFrom,
-     lowerTo: lowerTo, upperTo: upperTo })
+     lowerTo: lowerTo, upperTo:upperTo });
 
-  // Define unaffected regions
+  //  Define unaffected regions
   const top = source.slice(0, lowerTo), tail = source.slice(upperTo+1);
 
-  //Assemble output
+  // Assemble output
   const shifted = top.concat(source[lowerFrom],source[upperFrom],tail);
 
-  // Debug?
-  traceThing('^swapArrayElement~', false?{top:top,tail:tail}:shifted)
+  //  Debug?
+  traceThing('^swapArrayElement~', false?{top:top,tail:tail}:shifted);
 
-  //Rebuild source
+  // Rebuild source
   source.splice(0,source.length,shifted);
 
-  //Final check?
-  traceThing('swapArrayElement~~', source)
+  // Final check?
+  traceThing('swapArrayElement~~', source);
 }
