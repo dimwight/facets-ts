@@ -4,17 +4,17 @@ export interface Target extends Notifying{
   elements():Target[];
 }
 export class TargetCore extends NotifyingCore implements Target {
-  constructor(readonly title_:string,readonly members?:Target[]){
+  constructor(private readonly title_:string,private readonly elements_?:Target[]){
     super();
   }
   notifiesTargeter():boolean{
-    return this.members!==null;
+    return this.elements_!==null;
   }
   newTargeter():Targeter{
     return new TargeterCore();
   }
   elements():Target[]{
-    return this.members?this.members:[];
+    return this.elements_?this.elements_:[];
   }
   title(){
     return this.title_;
