@@ -1,23 +1,23 @@
 import {
   Facets,
   TextualCoupler,
-} from '../facets/_export'
+} from '../facets/_export';
 import {
-  Target
-} from '../facets/core/_export'
+  Target,
+} from '../facets/core/_export';
 import {traceThing,swapArrayElement} from '../facets/bits/_export';
 function trace(text){
-  if(false)console.info('App > ' +text);
+  if(false)console.log('App > ' +text);
 }
 const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
-const core : Facets = Facets.newInstance(true);
+const core: Facets = Facets.newInstance(true);
 
 function newTargetTree():Target{
   const text='Some text';
   trace('.newTargetTree: text='+text);
   const coupler:TextualCoupler={
     passText:text,
-    targetStateUpdated : (title) => trace("coupler.stateUpdated: title=" + title),
+    targetStateUpdated : (title) => trace('coupler.stateUpdated: title=' + title),
   };
   const first:Target=core.newTextualTarget(TITLE_FIRST,coupler),
     second:Target=core.newTextualTarget(TITLE_SECOND,coupler);
@@ -37,8 +37,8 @@ function main(){
   buildLayout();
   trace('Attached and laid out facets');
   trace('Surface built');
-  core.updateTargetState(TITLE_FIRST,'Some updated text');  
+  core.updateTargetState(TITLE_FIRST,'Some updated text');
 }
-main()
+main();
 
 

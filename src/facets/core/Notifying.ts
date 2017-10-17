@@ -19,8 +19,7 @@ export abstract class NotifyingCore implements Notifying{
     this.notifiable_.notify(this)
   }
   notify(notice: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   abstract elements():Notifying[]
 }
-  

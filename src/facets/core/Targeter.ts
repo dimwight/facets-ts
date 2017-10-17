@@ -13,15 +13,15 @@ export class TargeterCore implements Targeter{
   notify(notice){
     throw new Error('Not implemented in TargeterCore')
   }
-  setNotifiable(Notifiable){
-    
+  setNotifiable(notifiable){
+
   }
   retarget(target:Target){
     if(!target)throw new Error('Missing target')
     this.target_=target
     const targets:Target[]=target.elements()
-    if(!this.elements_)this.elements_=targets.map<Targeter>(target=>{
-        let element=(<TargetCore>target).newTargeter()
+    if(!this.elements_)this.elements_=targets.map<Targeter>(targety=>{
+        let element=(<TargetCore>targety).newTargeter()
         element.setNotifiable(this)
         return element
       })
