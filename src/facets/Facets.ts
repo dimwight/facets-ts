@@ -1,6 +1,6 @@
-import {Target,TargetCore,Targeter,Notifiable} from './core/_export'
-import {traceThing} from './bits/_export'
-export type SimpleState=string|boolean|number
+import {Target,TargetCore,Targeter,Notifiable} from './core/_export';
+import {traceThing} from './bits/_export';
+export type SimpleState=string|boolean|number;
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;
 }
@@ -44,23 +44,23 @@ export class Facets{
     notify(notice){
       throw new Error('Not implemented');      
     }
-  }
-  targeterTree:Targeter
-  titleTargeters=new Map<string,Targeter>()
+  };
+  targeterTree:Targeter;
+  titleTargeters=new Map<string,Targeter>();
   buildTargeterTree(targetTree:Target):void{
-		traceThing(" > Initial retargeting on",targetTree.title);
+    traceThing(' > Initial retargeting on',targetTree.title);
     let t=this.targeterTree=(<TargetCore>targetTree).newTargeter();
-		t.setNotifiable(this.notifiable);
-		t.retarget(targetTree);
-	  traceThing('.buildTargeterTree',t.title)
+    t.setNotifiable(this.notifiable);
+    t.retarget(targetTree);
+    traceThing('.buildTargeterTree',t.title());
     this.addTitleTargeters(t);
   }
   addTitleTargeters(t:Targeter){
-		let title=t.title();
-		this.titleTargeters.set(title,t);
-		const elements:Targeter[]=t.elements();
-		traceThing("> Added targeter: title="+title+": elements=",elements);
-    elements.forEach((e)=>this.addTitleTargeters(e))
+    let title=t.title();
+    this.titleTargeters.set(title,t);
+    const elements:Targeter[]=t.elements();
+    traceThing('> Added targeter: title='+title+': elements=',elements);
+    elements.forEach((e)=>this.addTitleTargeters(e));
   }
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
     return new TargetCore(title);
@@ -69,8 +69,8 @@ export class Facets{
     return new TargetCore(title,members);
   }
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
-    let t=this.titleTargeters.get(title)
-    traceThing('.attachFacet title='+title,t)
+    let t=this.titleTargeters.get(title);
+    traceThing('.attachFacet title='+title,t);
     throw new Error('Not implemented');
   }
   updateTargetState(title:string,update:SimpleState):void{

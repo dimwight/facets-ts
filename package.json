@@ -4,7 +4,7 @@
   "devDependencies": {
    },
   "scripts": {
-    "lint": "eslint src"
+    "lint": "tslint src"
   }
 }
 
