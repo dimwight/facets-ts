@@ -28,9 +28,10 @@ function buildLayout(){
   core.attachFacet(TITLE_FIRST,update=>trace('Facet updating with '+update));
 }
 function main(){
-  swapArrayElement([0,1,2],'1',false);
-  if(true)return;
-  trace('Building surface');
+  if(false){
+    swapArrayElement([0,1,2],'1',false);
+    return;
+  }
   core.buildTargeterTree(newTargetTree());
   trace('Built targets, created targeters');
   buildLayout();

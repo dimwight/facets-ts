@@ -1,7 +1,6 @@
 {
   "include": [
-    "app/**/*",
-    "facets/**/*"
+    "src/**/*"
   ],
   "compilerOptions": {
     "lib": [
