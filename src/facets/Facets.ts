@@ -48,18 +48,17 @@ export class Facets{
   targeterTree:Targeter;
   titleTargeters=new Map<string,Targeter>();
   buildTargeterTree(targetTree:Target):void{
-    traceThing(' > Initial retargeting on',targetTree.title);
+    traceThing(' > Initial retargeting on '+targetTree.title());
     let t=this.targeterTree=(<TargetCore>targetTree).newTargeter();
     t.setNotifiable(this.notifiable);
     t.retarget(targetTree);
-    traceThing('.buildTargeterTree',t.title());
     this.addTitleTargeters(t);
   }
   addTitleTargeters(t:Targeter){
     let title=t.title();
     this.titleTargeters.set(title,t);
     const elements:Targeter[]=t.elements();
-    traceThing('> Added targeter: title='+title+': elements=',elements);
+    traceThing('> Added targeter: title='+title+': elements='+elements.length);
     elements.forEach((e)=>this.addTitleTargeters(e));
   }
   newTextualTarget(title:string,coupler:TextualCoupler):Target{
@@ -71,7 +70,7 @@ export class Facets{
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
     let t=this.titleTargeters.get(title);
     if(!t)throw new Error('Missing t for '+title);
-    traceThing('.attachFacet title='+title,t);
+    traceThing('> Attaching facet: title='+title);
     throw new Error('Not implemented');
   }
   updateTargetState(title:string,update:SimpleState):void{
