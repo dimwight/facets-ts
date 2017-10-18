@@ -1,4 +1,9 @@
-import {Target,TargetCore,Targeter,Notifiable} from './core/_export';
+import {
+  Target,
+  TargetCore,
+  Targeter,
+  Notifiable
+} from './core/_export';
 import {traceThing} from './bits/_export';
 export type SimpleState=string|boolean|number;
 export interface TargetCoupler {
