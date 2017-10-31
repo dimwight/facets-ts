@@ -1,11 +1,11 @@
 import {
   Facets,
   TextualCoupler,
-} from '../facets/export';
+} from '../facets/_export';
 import {
   Target,
-} from '../facets/core/export';
-import {traceThing,swapArrayElement} from '../facets/util/export';
+} from '../facets/core/_export';
+import {traceThing,swapArrayElement} from '../facets/util/_export';
 function trace(text){
   if(false)console.log('App > ' +text);
 }

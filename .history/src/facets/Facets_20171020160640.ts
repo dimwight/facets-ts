@@ -3,8 +3,8 @@ import {
   TargetCore,
   Targeter,
   Notifiable
-} from './core/export';
-import {traceThing} from './util/export';
+} from './core/_export';
+import {traceThing} from './util/_export';
 export type SimpleState=string|boolean|number;
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;

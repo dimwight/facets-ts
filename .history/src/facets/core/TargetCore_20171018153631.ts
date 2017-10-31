@@ -1,7 +1,7 @@
 import {
   Target,
   Targeter,
-} from './export';
+} from './_export';
 import {
   TargeterCore,
   NotifyingCore,
