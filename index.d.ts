@@ -1,11 +1,12 @@
 /**
-* For passing simple target state in and out of a {Facets}.
-*/
-export type SimpleState=string|boolean|number;
-/**
 Marker interface for Facets implementation of Superficial target.
 */
 export interface Target{}
+/**
+* For passing state in and out of a simple {Target}.
+*/
+export type SimpleState=string|boolean|number
+/** */
 export interface TargetCoupler {
   /**
    * Called on update of the target constructed with the coupler.
@@ -144,8 +145,11 @@ export interface IndexingFramePolicy {
 * @returns {Facets}
 */
 export interface Times {
+  /** */
   doTime: boolean;
+  /** */
   setResetWait(millis: number): void;
+  /** */
   elapsed(): number;
   /**
    * Print {@link #elapsed()} followed by the message.
@@ -153,9 +157,15 @@ export interface Times {
    */
   traceElapsed(msg: string): void;
 }
+/**
+* A Superficial application core.
+*/
 export interface Facets{
+  /** */
   times: Times;
+  /** */
   doTrace: boolean;
+  /** */
   identity():any;
   /**
    *
@@ -164,8 +174,11 @@ export interface Facets{
    * @returns textual {Target}
    */
   newTextualTarget(title:string,coupler:TextualCoupler):Target;
+  /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
+  /** */
   newNumericTarget(title: string, coupler: NumericCoupler): Target;
+  /** */
   newTriggerTarget(title: string, coupler: TargetCoupler): Target;
   /**
   * Constructs a target containing others
@@ -174,14 +187,18 @@ export interface Facets{
   * @returns group of {Target}s
   */
   newTargetGroup(title:string,...members:Target[]):Target;
+  /** */
   newIndexingTarget(title:string,coupler:IndexingCoupler):Target;
+  /** */
   getIndexingState(title: string): IndexingState;
+  /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
   /**
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
   buildTargeterTree(targetTree:Target):void;
+  /** */
   updateTargeterTree(): void;
   /**
    * Attach an internal facet to the targeter with the target title passed.
@@ -212,12 +229,14 @@ export interface Facets{
    * @param {SimpleState} update for target state
    */
   updateTargetWithNotify(title:string,update:SimpleState):void;
+  /** */
   setTargetLive(title: string, live: boolean): void;
+  /** */
   isTargetLive(title: string): boolean;
+  /** */
   onRetargeted: ()=>void;
+  /** */
   supplement:any;
 }
+/** */
 export function newInstance(trace:boolean):Facets;
-/**
-* A Superficial application core.
-*/
