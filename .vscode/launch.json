@@ -9,13 +9,13 @@
       "type": "node",
       "request": "launch",
       "name": "app-main",
-      "program": "${workspaceFolder}/src/app/main.js"
+      "program": "${workspaceFolder}/out/app/main.js"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "checkDts",
-      "program": "${workspaceFolder}/src/facets/util/checkDts.js"
+      "program": "${workspaceFolder}/out/facets/util/checkDts.js"
     }
   ]
 }

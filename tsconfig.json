@@ -17,6 +17,7 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "module": "commonjs",
-    "target": "es5"
+    "target": "es5",
+    "outDir": "out"
   }
 }
