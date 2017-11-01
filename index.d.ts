@@ -1,7 +1,7 @@
 /**
 * For passing simple target state in and out of a {Facets}.
 */
-export type SimpleState=string|boolean|number
+export type SimpleState=string|boolean|number;
 /**
 Marker interface for Facets implementation of Superficial target.
 */
