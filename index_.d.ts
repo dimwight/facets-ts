@@ -2,33 +2,32 @@
 Marker interface for Facets implementation of Superficial target.
 */
 export interface Target{}
-
+interface Target
 /**
 * For passing state in and out of a simple {Target}.
 */
 export type SimpleState=string|boolean|number
-
+type SimpleState
 /** */
 export interface TargetCoupler {
-
   /**
    * Called on update of the target constructed with the coupler.
    * @param state the updated state
    * @param {string} title identifies the target
    */
   targetStateUpdated?: (state: SimpleState, title: string) => void;
-
+targetStateUpdated
 }
 /**
 Connects a textual target with client code.
 */
 export interface TextualCoupler extends TargetCoupler{
-
+interface TextualCoupler extends TargetCoupler
   /**
   Sets initial state of the textual.
   */
   passText?:string;
-
+passText
   /**
   * Supply state for the target.
   * Must be implemented if no passText.
@@ -36,7 +35,7 @@ export interface TextualCoupler extends TargetCoupler{
   * @returns {string} the state
   */
   getText?:(title:string)=>string;
-
+getText
   /**
   * Allows validation of changed target state
   * @param {string} text to validate
@@ -44,13 +43,13 @@ export interface TextualCoupler extends TargetCoupler{
   * @returns {boolean} true if valid
   */
   isValidText?:(text: string, title: string)=>boolean;
-
+isValidText
 }
 /**
  Connects a toggling (boolean) target with client code.
  */
 export interface TogglingCoupler extends TargetCoupler {
-
+interface TogglingCoupler extends TargetCoupler 
   /**
    Sets initial state of the toggling.
    */
@@ -60,7 +59,7 @@ export interface TogglingCoupler extends TargetCoupler {
  Connects a numeric target with client code.
  */
 export interface NumericCoupler extends TargetCoupler {
-
+interface NumericCoupler extends TargetCoupler 
   /**
    Sets initial state of the numeric.
    */
@@ -78,26 +77,26 @@ export interface NumericCoupler extends TargetCoupler {
  Connects an indexing (list-type) target with client code.
  */
 export interface IndexingCoupler extends TargetCoupler{
-
+interface IndexingCoupler extends TargetCoupler
   /**
    Sets initial state of the indexing (the index into its contents).
    */
   passIndex:number;
-
+passIndex
   /**
    * Get the contents to be indexed
    * @param {string} title identifies the target
    * @returns {any[]}
    */
   getIndexables: (title: string) => any[];
-
+getIndexables
   /**
    * Get strings to represent the indexable contents in the UI
    * @param {string} title identifies the target
    * @returns {string[]}
    */
   getUiSelectables: (title: string) => string[];
-
+getUiSelectables
 }
 /**
  * Current values exposed by the indexing
@@ -116,7 +115,6 @@ interface IndexingState {
  * Defines a target that wraps content selected with an indexing.
  */
 export interface IndexingFramePolicy {
-
   /**
    * Title for the wrapping target.
    */
@@ -141,13 +139,13 @@ export interface IndexingFramePolicy {
    * @returns {Target[]}
    */
   newIndexingTargets?: () => Target[];
-
+newIndexingTargets
   /**
    * Provides for supplying different targets
    * @param indexed selected with the indexing
    */
   newIndexedTitle: (indexed: any) => string;
-
+newIndexedTitle
   /**
    * Create Targets exposing the indexed content
    * @param indexed selected with the indexing
@@ -155,7 +153,7 @@ export interface IndexingFramePolicy {
    * @returns {Target[]}
    */
   newIndexedTargets: (indexed: any, indexedTitle: string) => Target[];
-
+newIndexedTargets
 }
 /**
 * Constructs a new Superficial application core.
@@ -163,12 +161,12 @@ export interface IndexingFramePolicy {
 * @returns {Facets}
 */
 export interface Times {
-
+interface Times 
   /** */
   doTime: boolean;
   /** */
   setResetWait(millis: number): void;
-
+setResetWait
   /** */
   elapsed(): number;
   /**
@@ -181,14 +179,14 @@ export interface Times {
 * A Superficial application core.
 */
 export interface Facets{
-
+interface Facets
   /** */
   times: Times;
   /** */
   doTrace: boolean;
   /** */
   identity():any;
-
+identity
   /**
    *
    * @param {string} title identifies the target or its targeter
@@ -196,16 +194,16 @@ export interface Facets{
    * @returns textual {Target}
    */
   newTextualTarget(title:string,coupler:TextualCoupler):Target;
-
+newTextualTarget
   /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
-
+newTogglingTarget
   /** */
   newNumericTarget(title: string, coupler: NumericCoupler): Target;
-
+newNumericTarget
   /** */
   newTriggerTarget(title: string, coupler: TargetCoupler): Target;
-
+newTriggerTarget
   /**
   * Constructs a target containing others
   * @param {string} title for the target
@@ -213,22 +211,22 @@ export interface Facets{
   * @returns group of {Target}s
   */
   newTargetGroup(title:string,...members:Target[]):Target;
-
+newTargetGroup
   /** */
   newIndexingTarget(title:string,coupler:IndexingCoupler):Target;
-
+newIndexingTarget
   /** */
   getIndexingState(title: string): IndexingState;
-
+getIndexingState
   /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
-
+newIndexingFrame
   /**
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
   buildTargeterTree(targetTree:Target):void;
-
+buildTargeterTree
   /** */
   updateTargeterTree(): void;
   /**
@@ -237,21 +235,21 @@ export interface Facets{
    * @param {(state) => void} facetUpdated callback to update the UI with the target state
    */
   attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void;
-
+attachFacet
   /**
    * Update the state of the target identified.
    * @param {string} title identifies the target
    * @param {SimpleState} update to update the target
    */
   updateTargetState(title:string,update:SimpleState):void;
-
+updateTargetState
   /**
    * Obtain the the state of the target identified.
    * @param {string} title identifies the target
    * @returns {SimpleState} the state
    */
   getTargetState(title:string):SimpleState;
-
+getTargetState
   /**
    * Notify the framework of an update and trigger a retargeting. 
    * @param {string} title identifies the target
@@ -263,17 +261,18 @@ export interface Facets{
    * @param {SimpleState} update for target state
    */
   updateTargetWithNotify(title:string,update:SimpleState):void;
-
+updateTargetWithNotify
   /** */
   setTargetLive(title: string, live: boolean): void;
   /** */
   isTargetLive(title: string): boolean;
   /** */
   onRetargeted: ()=>void;
-
+onRetargeted
   /** */
   supplement:any;
-
+supplement
 }
 /** */
 export function newInstance(trace:boolean):Facets;
+function newInstance
