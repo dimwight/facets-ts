@@ -55,7 +55,7 @@ export declare namespace Facets {
         start: number;
         restarted: boolean;
         debug: boolean;
-        setResetWait(wait: number): void;
+        setResetWait(millis: number): void;
         /**
          * The time since the last auto-reset.
          * <p>Interval for reset set by {@link #resetWait}.

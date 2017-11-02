@@ -158,7 +158,7 @@ export interface IndexingFramePolicy {
    * @returns {Target[]}
    */
   newIndexingTargets?: () => Target[];
-+newIndexingTargets?: () => STarget[];
+=
   /**
    * Provides for supplying different targets
    * @param indexed selected with the indexing
@@ -187,7 +187,7 @@ export interface Times {
 =
   /** */
   setResetWait(millis: number): void;
-+setResetWait(wait: number): void;
+=
   /** */
   elapsed(): number;
 =
@@ -218,41 +218,40 @@ export interface Facets{
    * @param {TextualCoupler} coupler connects the target to client code
    * @returns textual {Target}
    */
-  newTextualTarget(title: string,coupler: TextualCoupler): Target;
-+newTextualTarget(title: string, c: TextualCoupler): STarget;
+  newTextualTarget(title: string, coupler: TextualCoupler): Target;
+=
   /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
-+newTogglingTarget(title: string, c: TogglingCoupler): STarget;
+=
   /** */
   newNumericTarget(title: string, coupler: NumericCoupler): Target;
-+newNumericTarget(title: string, c: NumericCoupler): STarget;
+=
   /** */
   newTriggerTarget(title: string, coupler: TargetCoupler): Target;
-+newTriggerTarget(title: string, c: TargetCoupler): STarget;
+=
   /**
   * Constructs a target containing others
   * @param {string} title for the target
   * @param {Target} members of the group
   * @returns group of {Target}s
   */
-  newTargetGroup(title: string,...members: Target[]): Target;
-+newTargetGroup(title: string, ...members: STarget[]): STarget;
+  newTargetGroup(title: string, ...members: Target[]): Target;
+=
   /** */
-  newIndexingTarget(title: string,coupler: IndexingCoupler): Target;
-+newIndexingTarget(title: string, c: IndexingCoupler): STarget;
-+newIndexingTargets?: () => STarget[];
+  newIndexingTarget(title: string, coupler: IndexingCoupler): Target;
+=
   /** */
   getIndexingState(title: string): IndexingState;
 =
   /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
-+newIndexingFrame(p: IndexingFramePolicy): STarget;
+=
   /**
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
   buildTargeterTree(targetTree: Target): void;
-+buildTargeterTree(targetTree: STarget): void;
+=
   /** */
   updateTargeterTree(): void;
 =
@@ -261,22 +260,22 @@ export interface Facets{
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the target state
    */
-  attachFacet(title: string,facetUpdated: (state: SimpleState) => void): void;
-+attachFacet(title: string, facetUpdated: any): void;
+  attachFacet(title: string, facetUpdated: (state: SimpleState) => void): void;
+=
   /**
    * Update the state of the target identified.
    * @param {string} title identifies the target
    * @param {SimpleState} update to update the target
    */
-  updateTargetState(title: string,update: SimpleState): void;
-+updateTargetState(title: string, update: any): void;
+  updateTargetState(title: string, update: SimpleState): void;
+=
   /**
    * Obtain the the state of the target identified.
    * @param {string} title identifies the target
    * @returns {SimpleState} the state
    */
   getTargetState(title: string): SimpleState;
-+getTargetState(title: string): any;
+=
   /**
    * Notify the framework of an update and trigger a retargeting. 
    * @param {string} title identifies the target
@@ -288,8 +287,8 @@ export interface Facets{
    * @param {string} title identifies the target
    * @param {SimpleState} update for target state
    */
-  updateTargetWithNotify(title: string,update: SimpleState): void;
-+updateTargetWithNotify(title: string, update: any): void;
+  updateTargetWithNotify(title: string, update: SimpleState): void;
+=
   /** */
   setTargetLive(title: string, live: boolean): void;
 =
@@ -298,7 +297,7 @@ export interface Facets{
 =
   /** */
   onRetargeted: () => void;
-+onRetargeted(): void;
+=
   /** */
   supplement: any;
 ?

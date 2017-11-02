@@ -173,7 +173,7 @@ export interface Facets{
    * @param {TextualCoupler} coupler connects the target to client code
    * @returns textual {Target}
    */
-  newTextualTarget(title: string,coupler: TextualCoupler): Target;
+  newTextualTarget(title: string, coupler: TextualCoupler): Target;
   /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
   /** */
@@ -186,9 +186,9 @@ export interface Facets{
   * @param {Target} members of the group
   * @returns group of {Target}s
   */
-  newTargetGroup(title: string,...members: Target[]): Target;
+  newTargetGroup(title: string, ...members: Target[]): Target;
   /** */
-  newIndexingTarget(title: string,coupler: IndexingCoupler): Target;
+  newIndexingTarget(title: string, coupler: IndexingCoupler): Target;
   /** */
   getIndexingState(title: string): IndexingState;
   /** */
@@ -205,13 +205,13 @@ export interface Facets{
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the target state
    */
-  attachFacet(title: string,facetUpdated: (state: SimpleState) => void): void;
+  attachFacet(title: string, facetUpdated: (state: SimpleState) => void): void;
   /**
    * Update the state of the target identified.
    * @param {string} title identifies the target
    * @param {SimpleState} update to update the target
    */
-  updateTargetState(title: string,update: SimpleState): void;
+  updateTargetState(title: string, update: SimpleState): void;
   /**
    * Obtain the the state of the target identified.
    * @param {string} title identifies the target
@@ -228,7 +228,7 @@ export interface Facets{
    * @param {string} title identifies the target
    * @param {SimpleState} update for target state
    */
-  updateTargetWithNotify(title: string,update: SimpleState): void;
+  updateTargetWithNotify(title: string, update: SimpleState): void;
   /** */
   setTargetLive(title: string, live: boolean): void;
   /** */
