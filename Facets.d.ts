@@ -82,13 +82,13 @@ export declare namespace Facets {
         indexingTitle: string;
         getIndexables: () => any[];
         getUiSelectables: () => string[];
-        newIndexingTargets: () => STarget[];
-        newIndexedTitle: (p1: any) => string;
-        newIndexedTargets: (p1: any, p2: string) => STarget[];
+        newIndexingTargets?: () => STarget[];
+        newIndexedTitle?: (p1: any) => string;
+        newIndexedTargets?: (p1: any, p2: string) => STarget[];
     }
     class LocalFrameTarget extends SFrameTarget {
-        newEditTargets: (p1: any, p2: string) => STarget[];
-        constructor(title: string, toFrame: any, newEditTargets: (p1: any, p2: string) => STarget[]);
+        newIndexedTargets: (p1: any, p2: string) => STarget[];
+        constructor(title: string, toFrame: any, newIndexedTargets: (p1: any, p2: string) => STarget[]);
         /**
          *
          * @return {Array}
@@ -112,5 +112,147 @@ export declare namespace Facets {
         passIndex: number;
         getIndexables: (p1: string) => any[];
         getUiSelectables: (p1: string) => string[];
+    }
+    class Facets$0 implements Notifiable {
+        __parent: any;
+        /**
+         *
+         * @param {*} notice
+         */
+        notify(notice: any): void;
+        /**
+         *
+         * @return {string}
+         */
+        title(): string;
+        constructor(__parent: any);
+    }
+    class Facets$1 extends STextual.Coupler {
+        private c;
+        __parent: any;
+        /**
+         *
+         * @param {STextual} target
+         */
+        textSet(target: STextual): void;
+        /**
+         *
+         * @param {STextual} t
+         * @return {string}
+         */
+        getText(t: STextual): string;
+        /**
+         *
+         * @param {STextual} t
+         * @param {string} text
+         * @return {boolean}
+         */
+        isValidText(t: STextual, text: string): boolean;
+        constructor(__parent: any, c: any);
+    }
+    class Facets$2 extends SToggling.Coupler {
+        private c;
+        __parent: any;
+        /**
+         *
+         * @param {SToggling} target
+         */
+        stateSet(target: SToggling): void;
+        constructor(__parent: any, c: any);
+    }
+    class Facets$3 extends SNumeric.Coupler {
+        private c;
+        __parent: any;
+        /**
+         *
+         * @param {SNumeric} n
+         */
+        valueSet(n: SNumeric): void;
+        /**
+         *
+         * @param {SNumeric} n
+         * @return {NumberPolicy}
+         */
+        policy(n: SNumeric): NumberPolicy;
+        constructor(__parent: any, c: any);
+    }
+    class Facets$4 extends STrigger.Coupler {
+        private c;
+        __parent: any;
+        /**
+         *
+         * @param {STrigger} t
+         */
+        fired(t: STrigger): void;
+        constructor(__parent: any, c: any);
+    }
+    class Facets$5 extends SIndexing.Coupler {
+        private c;
+        __parent: any;
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getIndexables(i: SIndexing): any[];
+        /**
+         *
+         * @param {SIndexing} target
+         */
+        indexSet(target: SIndexing): void;
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getFacetSelectables(i: SIndexing): string[];
+        constructor(__parent: any, c: any);
+    }
+    class Facets$6 extends SIndexing.Coupler {
+        private p;
+        __parent: any;
+        thenIndexables: any[];
+        thenSelectables: any[];
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getIndexables(i: SIndexing): any[];
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getFacetSelectables(i: SIndexing): string[];
+        constructor(__parent: any, p: any);
+    }
+    class Facets$7 extends IndexingFrame {
+        private p;
+        __parent: any;
+        lazyElements(): STarget[];
+        /**
+         *
+         * @param {*} indexed
+         * @return {SFrameTarget}
+         */
+        newIndexedFrame(indexed: any): SFrameTarget;
+        constructor(__parent: any, __arg0: any, __arg1: any, p: any);
+    }
+    class Facets$8 implements SFacet {
+        private facetUpdated;
+        __parent: any;
+        id: number;
+        /**
+         *
+         * @param {*} target
+         */
+        retarget(target: STarget): void;
+        /**
+         *
+         * @return {string}
+         */
+        toString(): string;
+        constructor(__parent: any, facetUpdated: any);
     }
 }

@@ -18,25 +18,25 @@ export interface TargetCoupler {
 /**
 Connects a textual target with client code.
 */
-export interface TextualCoupler extends TargetCoupler{
+export interface TextualCoupler extends TargetCoupler {
   /**
   Sets initial state of the textual.
   */
-  passText?:string;
+  passText?: string;
   /**
   * Supply state for the target.
   * Must be implemented if no passText.
   * @param {string} title identifies the target
   * @returns {string} the state
   */
-  getText?:(title:string)=>string;
+  getText?: (title: string) => string;
   /**
   * Allows validation of changed target state
   * @param {string} text to validate
   * @param {string} title identifies the target
   * @returns {boolean} true if valid
   */
-  isValidText?:(text: string, title: string)=>boolean;
+  isValidText?: (text: string, title: string) => boolean;
 }
 /**
  Connects a toggling (boolean) target with client code.
@@ -67,11 +67,11 @@ export interface NumericCoupler extends TargetCoupler {
 /**
  Connects an indexing (list-type) target with client code.
  */
-export interface IndexingCoupler extends TargetCoupler{
+export interface IndexingCoupler extends TargetCoupler {
   /**
    Sets initial state of the indexing (the index into its contents).
    */
-  passIndex:number;
+  passIndex: number;
   /**
    * Get the contents to be indexed
    * @param {string} title identifies the target
@@ -166,14 +166,14 @@ export interface Facets{
   /** */
   doTrace: boolean;
   /** */
-  identity():any;
+  identity(): any;
   /**
    *
    * @param {string} title identifies the target or its targeter
    * @param {TextualCoupler} coupler connects the target to client code
    * @returns textual {Target}
    */
-  newTextualTarget(title:string,coupler:TextualCoupler):Target;
+  newTextualTarget(title: string,coupler: TextualCoupler): Target;
   /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
   /** */
@@ -186,9 +186,9 @@ export interface Facets{
   * @param {Target} members of the group
   * @returns group of {Target}s
   */
-  newTargetGroup(title:string,...members:Target[]):Target;
+  newTargetGroup(title: string,...members: Target[]): Target;
   /** */
-  newIndexingTarget(title:string,coupler:IndexingCoupler):Target;
+  newIndexingTarget(title: string,coupler: IndexingCoupler): Target;
   /** */
   getIndexingState(title: string): IndexingState;
   /** */
@@ -197,7 +197,7 @@ export interface Facets{
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
-  buildTargeterTree(targetTree:Target):void;
+  buildTargeterTree(targetTree: Target): void;
   /** */
   updateTargeterTree(): void;
   /**
@@ -205,19 +205,19 @@ export interface Facets{
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the target state
    */
-  attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void;
+  attachFacet(title: string,facetUpdated: (state: SimpleState) => void): void;
   /**
    * Update the state of the target identified.
    * @param {string} title identifies the target
    * @param {SimpleState} update to update the target
    */
-  updateTargetState(title:string,update:SimpleState):void;
+  updateTargetState(title: string,update: SimpleState): void;
   /**
    * Obtain the the state of the target identified.
    * @param {string} title identifies the target
    * @returns {SimpleState} the state
    */
-  getTargetState(title:string):SimpleState;
+  getTargetState(title: string): SimpleState;
   /**
    * Notify the framework of an update and trigger a retargeting. 
    * @param {string} title identifies the target
@@ -228,15 +228,15 @@ export interface Facets{
    * @param {string} title identifies the target
    * @param {SimpleState} update for target state
    */
-  updateTargetWithNotify(title:string,update:SimpleState):void;
+  updateTargetWithNotify(title: string,update: SimpleState): void;
   /** */
   setTargetLive(title: string, live: boolean): void;
   /** */
   isTargetLive(title: string): boolean;
   /** */
-  onRetargeted: ()=>void;
+  onRetargeted: () => void;
   /** */
-  supplement:any;
+  supplement: any;
 }
 /** */
-export function newInstance(trace:boolean):Facets;
+export function newInstance(trace: boolean): Facets;

@@ -2,15 +2,15 @@
 Marker interface for Facets implementation of Superficial target.
 */
 export interface Target{}
-?interface Target
++interface TargetCoupler {
+=
 /**
 * For passing state in and out of a simple {Target}.
 */
 export type SimpleState=string|boolean|number
-?type SimpleState
+?
 /** */
 export interface TargetCoupler {
-OK: interface TargetCoupler {
   /**
    * Called on update of the target constructed with the coupler.
    * @param state the updated state
@@ -22,72 +22,74 @@ OK: interface TargetCoupler {
 /**
 Connects a textual target with client code.
 */
-export interface TextualCoupler extends TargetCoupler{
-?interface TextualCoupler extends TargetCoupler
+export interface TextualCoupler extends TargetCoupler {
+=
   /**
   Sets initial state of the textual.
   */
-  passText?:string;
-+passText?: string;
+  passText?: string;
+=
   /**
   * Supply state for the target.
   * Must be implemented if no passText.
   * @param {string} title identifies the target
   * @returns {string} the state
   */
-  getText?:(title:string)=>string;
+  getText?: (title: string) => string;
 +getText?: (p1: string) => string;
++getText(t: STextual): string;
   /**
   * Allows validation of changed target state
   * @param {string} text to validate
   * @param {string} title identifies the target
   * @returns {boolean} true if valid
   */
-  isValidText?:(text: string, title: string)=>boolean;
+  isValidText?: (text: string, title: string) => boolean;
 +isValidText?: (p1: string, p2: string) => boolean;
++isValidText(t: STextual, text: string): boolean;
 }
 /**
  Connects a toggling (boolean) target with client code.
  */
 export interface TogglingCoupler extends TargetCoupler {
-OK: interface TogglingCoupler extends TargetCoupler {
+=
   /**
    Sets initial state of the toggling.
    */
   passSet: boolean;
-OK: passSet: boolean;
+=
 }
 /**
  Connects a numeric target with client code.
  */
 export interface NumericCoupler extends TargetCoupler {
-OK: interface NumericCoupler extends TargetCoupler {
+=
   /**
    Sets initial state of the numeric.
    */
   passValue: number;
-OK: passValue: number;
+=
   /**
    Minimum state of the numeric.
    */
   min: number;
-OK: min: number;
+=
   /**
    Maximum state of the numeric.
    */
   max: number;
-OK: max: number;
+=
 }
 /**
  Connects an indexing (list-type) target with client code.
  */
-export interface IndexingCoupler extends TargetCoupler{
-?interface IndexingCoupler extends TargetCoupler
+export interface IndexingCoupler extends TargetCoupler {
+=
   /**
    Sets initial state of the indexing (the index into its contents).
    */
-  passIndex:number;
-+passIndex: number;
+  passIndex: number;
+=
   /**
    * Get the contents to be indexed
    * @param {string} title identifies the target
@@ -95,8 +97,10 @@ export interface IndexingCoupler extends TargetCoupler{
    */
   getIndexables: (title: string) => any[];
 +getIndexables: () => any[];
-OK: getIndexables: () => any[];
+=
 +getIndexables: (p1: string) => any[];
++getIndexables(i: SIndexing): any[];
++getIndexables(i: SIndexing): any[];
   /**
    * Get strings to represent the indexable contents in the UI
    * @param {string} title identifies the target
@@ -104,40 +108,40 @@ OK: getIndexables: () => any[];
    */
   getUiSelectables: (title: string) => string[];
 +getUiSelectables: () => string[];
-OK: getUiSelectables: () => string[];
+=
 +getUiSelectables: (p1: string) => string[];
 }
 /**
  * Current values exposed by the indexing
  */
 interface IndexingState {
-OK: interface IndexingState {
+=
   /**
    * As last created by IndexingCoupler.getUiSelectables
    */
   uiSelectables: string[];
-OK: uiSelectables: string[];
+=
   /**
    * The result of the current index into the indexables.
    */
   indexed: any;
-OK: indexed: any;
+=
 }
 /**
  * Defines a target that wraps content selected with an indexing.
  */
 export interface IndexingFramePolicy {
-OK: interface IndexingFramePolicy {
+=
   /**
    * Title for the wrapping target.
    */
   frameTitle: string;
-OK: frameTitle: string;
+=
   /**
    * Title for the wrapped indexing.
    */
   indexingTitle: string;
-OK: indexingTitle: string;
+=
   /**
    * Get current items to be indexed.
    */
@@ -154,13 +158,13 @@ OK: indexingTitle: string;
    * @returns {Target[]}
    */
   newIndexingTargets?: () => Target[];
-+newIndexingTargets: () => STarget[];
++newIndexingTargets?: () => STarget[];
   /**
    * Provides for supplying different targets
    * @param indexed selected with the indexing
    */
   newIndexedTitle: (indexed: any) => string;
-+newIndexedTitle: (p1: any) => string;
++newIndexedTitle?: (p1: any) => string;
   /**
    * Create Targets exposing the indexed content
    * @param indexed selected with the indexing
@@ -168,6 +172,7 @@ OK: indexingTitle: string;
    * @returns {Target[]}
    */
   newIndexedTargets: (indexed: any, indexedTitle: string) => Target[];
++newIndexedTargets?: (p1: any, p2: string) => STarget[];
 +newIndexedTargets: (p1: any, p2: string) => STarget[];
 }
 /**
@@ -176,44 +181,44 @@ OK: indexingTitle: string;
 * @returns {Facets}
 */
 export interface Times {
-?interface Times
+?
   /** */
   doTime: boolean;
-OK: doTime: boolean;
+=
   /** */
   setResetWait(millis: number): void;
 +setResetWait(wait: number): void;
   /** */
   elapsed(): number;
-OK: elapsed(): number;
+=
   /**
    * Print {@link #elapsed()} followed by the message.
    * @param {string} msg
    */
   traceElapsed(msg: string): void;
-OK: traceElapsed(msg: string): void;
+=
 }
 /**
 * A Superficial application core.
 */
 export interface Facets{
-?interface Facets
+?
   /** */
   times: Times;
-OK: times: Times;
+=
   /** */
   doTrace: boolean;
-OK: doTrace: boolean;
+=
   /** */
-  identity():any;
-?identity
+  identity(): any;
+?
   /**
    *
    * @param {string} title identifies the target or its targeter
    * @param {TextualCoupler} coupler connects the target to client code
    * @returns textual {Target}
    */
-  newTextualTarget(title:string,coupler:TextualCoupler):Target;
+  newTextualTarget(title: string,coupler: TextualCoupler): Target;
 +newTextualTarget(title: string, c: TextualCoupler): STarget;
   /** */
   newTogglingTarget(title: string, c: TogglingCoupler): Target;
@@ -230,15 +235,15 @@ OK: doTrace: boolean;
   * @param {Target} members of the group
   * @returns group of {Target}s
   */
-  newTargetGroup(title:string,...members:Target[]):Target;
+  newTargetGroup(title: string,...members: Target[]): Target;
 +newTargetGroup(title: string, ...members: STarget[]): STarget;
   /** */
-  newIndexingTarget(title:string,coupler:IndexingCoupler):Target;
+  newIndexingTarget(title: string,coupler: IndexingCoupler): Target;
 +newIndexingTarget(title: string, c: IndexingCoupler): STarget;
-+newIndexingTargets: () => STarget[];
++newIndexingTargets?: () => STarget[];
   /** */
   getIndexingState(title: string): IndexingState;
-OK: getIndexingState(title: string): IndexingState;
+=
   /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
 +newIndexingFrame(p: IndexingFramePolicy): STarget;
@@ -246,58 +251,58 @@ OK: getIndexingState(title: string): IndexingState;
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
-  buildTargeterTree(targetTree:Target):void;
+  buildTargeterTree(targetTree: Target): void;
 +buildTargeterTree(targetTree: STarget): void;
   /** */
   updateTargeterTree(): void;
-OK: updateTargeterTree(): void;
+=
   /**
    * Attach an internal facet to the targeter with the target title passed.
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the target state
    */
-  attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void;
+  attachFacet(title: string,facetUpdated: (state: SimpleState) => void): void;
 +attachFacet(title: string, facetUpdated: any): void;
   /**
    * Update the state of the target identified.
    * @param {string} title identifies the target
    * @param {SimpleState} update to update the target
    */
-  updateTargetState(title:string,update:SimpleState):void;
+  updateTargetState(title: string,update: SimpleState): void;
 +updateTargetState(title: string, update: any): void;
   /**
    * Obtain the the state of the target identified.
    * @param {string} title identifies the target
    * @returns {SimpleState} the state
    */
-  getTargetState(title:string):SimpleState;
+  getTargetState(title: string): SimpleState;
 +getTargetState(title: string): any;
   /**
    * Notify the framework of an update and trigger a retargeting. 
    * @param {string} title identifies the target
    */
   notifyTargetUpdated(title: string): void;
-OK: notifyTargetUpdated(title: string): void;
+=
   /**
    * Update target and and trigger a retargeting. 
    * @param {string} title identifies the target
    * @param {SimpleState} update for target state
    */
-  updateTargetWithNotify(title:string,update:SimpleState):void;
+  updateTargetWithNotify(title: string,update: SimpleState): void;
 +updateTargetWithNotify(title: string, update: any): void;
   /** */
   setTargetLive(title: string, live: boolean): void;
-OK: setTargetLive(title: string, live: boolean): void;
+=
   /** */
   isTargetLive(title: string): boolean;
-OK: isTargetLive(title: string): boolean;
+=
   /** */
-  onRetargeted: ()=>void;
+  onRetargeted: () => void;
 +onRetargeted(): void;
   /** */
-  supplement:any;
-?supplement
+  supplement: any;
+?
 }
 /** */
-export function newInstance(trace:boolean):Facets;
-?function newInstance
+export function newInstance(trace: boolean): Facets;
+?
