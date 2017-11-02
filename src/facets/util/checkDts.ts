@@ -13,22 +13,29 @@ function main() {
       ||line.includes('namespace')
     )line='';
     line=line.replace('Facets.', '').trim();
-    if(true&&line!=='')console.log(line);
+    if(false&&line!=='')console.log(line);
     return line;
   });
   let chunks:string[]=content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g);
   let unmatched = 0;
   function handleChunk(chunk: string, at) {
-    let signature = chunk.replace(/\/\*\*[^/]+\/\s*/, '').trim(),insert;
+    let signature = chunk.replace(/\/\*\*[^/]+\/\s*/, '').trim(),insert='';
     signature = signature.replace(/export\s*(.*)/, '$1');
     if (mods.includes(signature)) insert='OK: '+signature;
     else{
-      console.log(signature);
       let head = signature.replace(/((\w+\s*)+).*/, '$1');
-      insert='>'+head;
-      unmatched++;
+      mods.map(mod=>{
+        if(mod.replace('interface','').startsWith(head))return mod;
+      }).forEach(mod=>{
+        if(mod)insert=insert+'+'+mod+'\n';
+      });
+      if(insert===''){
+        insert='?'+head;
+        console.log(insert);
+        unmatched++;
+      }
     }
-    content = content.replace(signature, signature + '\n' + insert);
+    content = content.replace(signature, signature + '\n' + insert.trim());
   }
   chunks.forEach(handleChunk);
   fs.writeFileSync(dest, content);
