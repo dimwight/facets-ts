@@ -37,7 +37,6 @@ export interface TextualCoupler extends TargetCoupler {
   */
   getText?: (title: string) => string;
 +getText?: (p1: string) => string;
-+getText(t: STextual): string;
   /**
   * Allows validation of changed target state
   * @param {string} text to validate
@@ -46,7 +45,6 @@ export interface TextualCoupler extends TargetCoupler {
   */
   isValidText?: (text: string, title: string) => boolean;
 +isValidText?: (p1: string, p2: string) => boolean;
-+isValidText(t: STextual, text: string): boolean;
 }
 /**
  Connects a toggling (boolean) target with client code.
@@ -98,9 +96,6 @@ export interface IndexingCoupler extends TargetCoupler {
   getIndexables: (title: string) => any[];
 +getIndexables: () => any[];
 =
-+getIndexables: (p1: string) => any[];
-+getIndexables(i: SIndexing): any[];
-+getIndexables(i: SIndexing): any[];
   /**
    * Get strings to represent the indexable contents in the UI
    * @param {string} title identifies the target
@@ -109,7 +104,6 @@ export interface IndexingCoupler extends TargetCoupler {
   getUiSelectables: (title: string) => string[];
 +getUiSelectables: () => string[];
 =
-+getUiSelectables: (p1: string) => string[];
 }
 /**
  * Current values exposed by the indexing
@@ -173,7 +167,6 @@ export interface IndexingFramePolicy {
    */
   newIndexedTargets: (indexed: any, indexedTitle: string) => Target[];
 +newIndexedTargets?: (p1: any, p2: string) => STarget[];
-+newIndexedTargets: (p1: any, p2: string) => STarget[];
 }
 /**
 * Constructs a new Superficial application core.

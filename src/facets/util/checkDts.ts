@@ -32,7 +32,7 @@ function main() {
       checks.map(check => {
         if (check.startsWith(head)) return check;
       }).forEach(check => {
-        if (check) insert = insert + '+' + check + '\n';
+        if (check&&insert==='') insert = insert + '+' + check + '\n';
       });
       if (insert === '') {
         insert = '?' + (true ? '' : head);
@@ -50,8 +50,7 @@ function ts2java(ts: string) {
     .replace(': () => void','(): void')
     .replace('(state: SimpleState) => void','any')
     .replace(': SimpleState',': any');
-  if(ts!==java)console.log('java='+java);
+  if(false&&ts!==java)console.log('java='+java);
   return java;
 }
-
 main();
