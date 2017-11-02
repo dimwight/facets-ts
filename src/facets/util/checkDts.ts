@@ -12,8 +12,8 @@ function main() {
       ||line.includes('constructor')
       ||line.includes('namespace')
     )line='';
-    line=line.replace('Facets.', '');
-    if(line!=='')console.log(line);
+    line=line.replace('Facets.', '').trim();
+    if(true&&line!=='')console.log(line);
     return line;
   });
   let chunks:string[]=content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g);
@@ -23,6 +23,7 @@ function main() {
     signature = signature.replace(/export\s*(.*)/, '$1');
     if (mods.includes(signature)) insert='OK: '+signature;
     else{
+      console.log(signature);
       let head = signature.replace(/((\w+\s*)+).*/, '$1');
       insert='>'+head;
       unmatched++;

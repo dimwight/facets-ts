@@ -10,7 +10,7 @@ export type SimpleState=string|boolean|number
 >type SimpleState
 /** */
 export interface TargetCoupler {
->interface TargetCoupler 
+OK: interface TargetCoupler {
   /**
    * Called on update of the target constructed with the coupler.
    * @param state the updated state
@@ -50,33 +50,33 @@ export interface TextualCoupler extends TargetCoupler{
  Connects a toggling (boolean) target with client code.
  */
 export interface TogglingCoupler extends TargetCoupler {
->interface TogglingCoupler extends TargetCoupler 
+OK: interface TogglingCoupler extends TargetCoupler {
   /**
    Sets initial state of the toggling.
    */
   passSet: boolean;
->passSet
+OK: passSet: boolean;
 }
 /**
  Connects a numeric target with client code.
  */
 export interface NumericCoupler extends TargetCoupler {
->interface NumericCoupler extends TargetCoupler 
+OK: interface NumericCoupler extends TargetCoupler {
   /**
    Sets initial state of the numeric.
    */
   passValue: number;
->passValue
+OK: passValue: number;
   /**
    Minimum state of the numeric.
    */
   min: number;
->min
+OK: min: number;
   /**
    Maximum state of the numeric.
    */
   max: number;
->max
+OK: max: number;
 }
 /**
  Connects an indexing (list-type) target with client code.
@@ -107,38 +107,38 @@ export interface IndexingCoupler extends TargetCoupler{
  * Current values exposed by the indexing
  */
 interface IndexingState {
->interface IndexingState 
+OK: interface IndexingState {
   /**
    * As last created by IndexingCoupler.getUiSelectables
    */
   uiSelectables: string[];
->uiSelectables
+OK: uiSelectables: string[];
   /**
    * The result of the current index into the indexables.
    */
   indexed: any;
->indexed
+OK: indexed: any;
 }
 /**
  * Defines a target that wraps content selected with an indexing.
  */
 export interface IndexingFramePolicy {
->interface IndexingFramePolicy 
+OK: interface IndexingFramePolicy {
   /**
    * Title for the wrapping target.
    */
   frameTitle: string;
->frameTitle
+OK: frameTitle: string;
   /**
    * Title for the wrapped indexing.
    */
   indexingTitle: string;
->indexingTitle
+OK: indexingTitle: string;
   /**
    * Get current items to be indexed.
    */
   getIndexables: () => any[];
->getIndexables
+OK: getIndexables: () => any[];
   /**
    * Supply strings to expose the content in the UI.
    * Analogue of IndexingCoupler function. 
@@ -146,7 +146,7 @@ export interface IndexingFramePolicy {
    * @returns {string[]}
    */
   getUiSelectables: () => string[];
->getUiSelectables
+OK: getUiSelectables: () => string[];
   /**
    * Create Targets exposing content independent of the indexing state
    * @returns {Target[]}
@@ -177,19 +177,19 @@ export interface Times {
 >interface Times 
   /** */
   doTime: boolean;
->doTime
+OK: doTime: boolean;
   /** */
   setResetWait(millis: number): void;
 >setResetWait
   /** */
   elapsed(): number;
->elapsed
+OK: elapsed(): number;
   /**
    * Print {@link #elapsed()} followed by the message.
    * @param {string} msg
    */
   traceElapsed(msg: string): void;
->traceElapsed
+OK: traceElapsed(msg: string): void;
 }
 /**
 * A Superficial application core.
@@ -198,10 +198,10 @@ export interface Facets{
 >interface Facets
   /** */
   times: Times;
->times
+OK: times: Times;
   /** */
   doTrace: boolean;
->doTrace
+OK: doTrace: boolean;
   /** */
   identity():any;
 >identity
@@ -235,7 +235,7 @@ export interface Facets{
 >newIndexingTarget
   /** */
   getIndexingState(title: string): IndexingState;
->getIndexingState
+OK: getIndexingState(title: string): IndexingState;
   /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
 >newIndexingFrame
@@ -247,7 +247,7 @@ export interface Facets{
 >buildTargeterTree
   /** */
   updateTargeterTree(): void;
->updateTargeterTree
+OK: updateTargeterTree(): void;
   /**
    * Attach an internal facet to the targeter with the target title passed.
    * @param {string} title identifies the targeter
@@ -274,7 +274,7 @@ export interface Facets{
    * @param {string} title identifies the target
    */
   notifyTargetUpdated(title: string): void;
->notifyTargetUpdated
+OK: notifyTargetUpdated(title: string): void;
   /**
    * Update target and and trigger a retargeting. 
    * @param {string} title identifies the target
@@ -284,10 +284,10 @@ export interface Facets{
 >updateTargetWithNotify
   /** */
   setTargetLive(title: string, live: boolean): void;
->setTargetLive
+OK: setTargetLive(title: string, live: boolean): void;
   /** */
   isTargetLive(title: string): boolean;
->isTargetLive
+OK: isTargetLive(title: string): boolean;
   /** */
   onRetargeted: ()=>void;
 >onRetargeted
