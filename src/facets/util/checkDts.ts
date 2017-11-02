@@ -1,22 +1,36 @@
 import * as fs from 'fs-extra';
 import { traceThing } from './export';
 
+const lineBreak = /\r\n/;
 function main() {
-  let src = 'index.d.ts',dest=true?'index_.d.ts':src, facets='Facets.d.txt';
-  let content = fs.readFileSync(src, 'utf8').replace(/\r\n/, '\n'),
-    mods=fs.readFileSync(facets, 'utf8').replace('Facets.','');
-  let leftOver=0;
-  // console.log(content.substr(0,200)+'\n-------------');
-  function handleChunk(chunk:string, at) {
-    let signature=chunk.replace(/\/\*\*[^/]+\/\s*/,'').trim();
-    if(true)signature=signature.replace(/export\s*(.*)/,'$1');
-    if(false)console.log(signature + '\n---------');
-    if(mods.includes(signature))return;
-    let head=signature.replace(/((\w+\s*)+).*/,'$1');
-    console.log(`${leftOver++} signature: ${signature}\nhead: ${head}`);
-    content=content.replace(signature,signature+'\n'+head);
+  let src = 'index.d.ts', dest = true ? 'index.d.txt' : src, facets = 'Facets.d.txt';
+  let content = fs.readFileSync(src, 'utf8').replace(lineBreak, '\n');
+  let mods:string[] = fs.readFileSync(facets, 'utf8').split(lineBreak).map(line=>{
+    if(!line.match(/.*[:{].*/)
+      ||line.match(/.*\*|__|\$.*/)
+      ||line.includes('import')
+      ||line.includes('constructor')
+      ||line.includes('namespace')
+    )line='';
+    line=line.replace('Facets.', '');
+    if(line!=='')console.log(line);
+    return line;
+  });
+  let chunks:string[]=content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g);
+  let unmatched = 0;
+  function handleChunk(chunk: string, at) {
+    let signature = chunk.replace(/\/\*\*[^/]+\/\s*/, '').trim(),insert;
+    signature = signature.replace(/export\s*(.*)/, '$1');
+    if (mods.includes(signature)) insert='OK: '+signature;
+    else{
+      let head = signature.replace(/((\w+\s*)+).*/, '$1');
+      insert='>'+head;
+      unmatched++;
+    }
+    content = content.replace(signature, signature + '\n' + insert);
   }
-  content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g).forEach(handleChunk);
-  fs.writeFileSync(dest,content);
+  chunks.forEach(handleChunk);
+  fs.writeFileSync(dest, content);
+  console.log('chunks=%s, unmatched=%s',chunks.length,unmatched);
 }
 main();
