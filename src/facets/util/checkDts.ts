@@ -3,9 +3,11 @@ import { traceThing } from './export';
 
 const winBreak = /\r\n/;
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
+const _params = /.*(\([^)]+\)).*/;
 function main() {
   let content = fs.readFileSync(src, 'utf8').replace(winBreak, '\n');
-  const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g).map(withComment => {
+  const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
+      .map(withComment => {
     return withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
   });
   const checks: string[] = fs.readFileSync(facets, 'utf8').split(winBreak).map(line => {
@@ -36,7 +38,7 @@ function main() {
       });
       if (insert === '') {
         insert = '?' + (true ? '' : head);
-        console.log(head);
+        if(false)console.log(head);
         unmatched++;
       }
     }
@@ -50,7 +52,13 @@ function ts2java(ts: string) {
     .replace(': () => void','(): void')
     .replace('(state: SimpleState) => void','any')
     .replace(': SimpleState',': any');
+  if(ts.match(_params))java=javaParams(java);
   if(false&&ts!==java)console.log('java='+java);
+  return java;
+}
+function javaParams(java:string){
+  let params=java.replace(_params,'$1');
+  console.log(params);
   return java;
 }
 main();
