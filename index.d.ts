@@ -105,7 +105,7 @@ export interface IndexingFramePolicy {
   /**
    * Title for the wrapping target.
    */
-  frameTitle: string;
+  indexingFrameTitle?: string;
   /**
    * Title for the wrapped indexing.
    */
@@ -115,29 +115,29 @@ export interface IndexingFramePolicy {
    */
   getIndexables: () => any[];
   /**
-   * Supply strings to expose the content in the UI.
+   * Supply  string to expose content item in the UI.
    * Analogue of IndexingCoupler function. 
-   * @param {any[]} content current state of content
-   * @returns {string[]}
+   * @param {any} content item
+   * @returns {string}
    */
-  getUiSelectables: () => string[];
+  newUiSelectable?: (p1: any) => string;
   /**
-   * Create Targets exposing content independent of the indexing state
+   * Create Targets to be attached to the frame Target
    * @returns {Target[]}
    */
-  newIndexingTargets?: () => Target[];
+  newFrameTargets?: () => Target[];
   /**
    * Provides for supplying different targets
    * @param indexed selected with the indexing
    */
-  newIndexedTitle: (indexed: any) => string;
+  newIndexedTargetsTitle?: (indexed: any) => string;
   /**
    * Create Targets exposing the indexed content
    * @param indexed selected with the indexing
    * @param title from {newIndexedTitle}
    * @returns {Target[]}
    */
-  newIndexedTargets: (indexed: any, indexedTitle: string) => Target[];
+  newIndexedTargets?: (indexed: any, indexedTitle: string) => Target[];
 }
 /**
 * Constructs a new Superficial application core.
@@ -160,13 +160,11 @@ export interface Times {
 /**
 * A Superficial application core.
 */
-export interface Facets{
+export interface Facets {
   /** */
   times: Times;
   /** */
   doTrace: boolean;
-  /** */
-  identity(): any;
   /**
    *
    * @param {string} title identifies the target or its targeter
@@ -198,8 +196,6 @@ export interface Facets{
    * @param {Target} targetTree the root of the target tree
    */
   buildTargeterTree(targetTree: Target): void;
-  /** */
-  updateTargeterTree(): void;
   /**
    * Attach an internal facet to the targeter with the target title passed.
    * @param {string} title identifies the targeter
@@ -235,6 +231,8 @@ export interface Facets{
   isTargetLive(title: string): boolean;
   /** */
   onRetargeted: () => void;
+  /** */
+  identity(): any;
   /** */
   supplement: any;
 }

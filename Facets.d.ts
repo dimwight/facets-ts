@@ -1,3 +1,4 @@
+import { IndexingFrame } from '../core/IndexingFrame';
 import { Notifiable } from '../core/Notifiable';
 import { SFacet } from '../core/SFacet';
 import { SFrameTarget } from '../core/SFrameTarget';
@@ -8,7 +9,6 @@ import { STargeter } from '../core/STargeter';
 import { STextual } from '../core/STextual';
 import { SToggling } from '../core/SToggling';
 import { STrigger } from '../core/STrigger';
-import { IndexingFrame } from '../core/select/IndexingFrame';
 import { NumberPolicy } from '../util/NumberPolicy';
 import { Tracer } from '../util/Tracer';
 export declare class Facets extends Tracer {
@@ -33,10 +33,12 @@ export declare class Facets extends Tracer {
     updatedTarget(target: STarget, c: Facets.TargetCoupler): void;
     newIndexingTarget(title: string, c: Facets.IndexingCoupler): STarget;
     getIndexingState(title: string): Facets.IndexingState;
+    indexingFrames: number;
     newIndexingFrame(p: Facets.IndexingFramePolicy): STarget;
+    getTargetFramed(title: string): any;
+    newFrameTarget(title: string, toFrame: any, editTargets: any[]): STarget;
     buildTargeterTree(targetTree: STarget): void;
-    updateTargeterTree(): void;
-    updateTitleTargeters(t: STargeter): void;
+    putTitleTargeters(t: STargeter): void;
     titleTarget(title: string): STarget;
     attachFacet(title: string, facetUpdated: any): void;
     updateTargetState(title: string, update: any): void;
@@ -78,17 +80,17 @@ export declare namespace Facets {
         indexed: any;
     }
     interface IndexingFramePolicy {
-        frameTitle: string;
+        indexingFrameTitle?: string;
         indexingTitle: string;
         getIndexables: () => any[];
-        getUiSelectables: () => string[];
-        newIndexingTargets?: () => STarget[];
-        newIndexedTitle?: (p1: any) => string;
-        newIndexedTargets?: (p1: any, p2: string) => STarget[];
+        newUiSelectable?: (p1: any) => string;
+        newFrameTargets?: () => STarget[];
+        newIndexedTargetsTitle?: (p1: any) => string;
+        newIndexedTargets?: (p1: any, p2: string) => STarget;
     }
     class LocalFrameTarget extends SFrameTarget {
-        newIndexedTargets: (p1: any, p2: string) => STarget[];
-        constructor(title: string, toFrame: any, newIndexedTargets: (p1: any, p2: string) => STarget[]);
+        newIndexedTargets: STarget[];
+        constructor(title: string, toFrame: any, newIndexedTargets: STarget[]);
         /**
          *
          * @return {Array}
@@ -229,17 +231,28 @@ export declare namespace Facets {
     }
     class Facets$7 extends IndexingFrame {
         private p;
+        private title;
         __parent: any;
         lazyElements(): STarget[];
         /**
          *
          * @param {*} indexed
-         * @return {SFrameTarget}
+         * @return {*}
          */
-        newIndexedFrame(indexed: any): SFrameTarget;
-        constructor(__parent: any, __arg0: any, __arg1: any, p: any);
+        newIndexedTargets(indexed: any): STarget;
+        constructor(__parent: any, __arg0: any, __arg1: any, p: any, title: any);
     }
-    class Facets$8 implements SFacet {
+    class Facets$8 extends SFrameTarget {
+        private asTargets;
+        __parent: any;
+        /**
+         *
+         * @return {Array}
+         */
+        lazyElements(): STarget[];
+        constructor(__parent: any, __arg0: any, __arg1: any, asTargets: any);
+    }
+    class Facets$9 implements SFacet {
         private facetUpdated;
         __parent: any;
         id: number;

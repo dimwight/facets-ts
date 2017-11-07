@@ -42,7 +42,8 @@ function main() {
         unmatched++;
       }
     }
-    content = content.replace(sig, sig + '\n' + insert.trim());
+    if(!insert.startsWith('='))
+      content = content.replace(sig, sig + '\n' + insert.trim());
   }
 }
 function ts2java(ts: string) {
@@ -58,7 +59,7 @@ function ts2java(ts: string) {
 }
 function javaParams(java:string){
   let params=java.replace(_params,'$1');
-  console.log(params);
+  console.log(params+'>'+params.replace(/(.*)\b\w+: (.*)/,'$1p: $2'));
   return java;
 }
 main();
