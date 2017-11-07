@@ -120,7 +120,7 @@ export interface IndexingFramePolicy {
    * @param {any} content item
    * @returns {string}
    */
-  newUiSelectable?: (p1: any) => string;
+  newUiSelectable?: (indexable: any) => string;
   /**
    * Create Targets to be attached to the frame Target
    * @returns {Target[]}
