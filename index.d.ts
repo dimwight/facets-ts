@@ -134,10 +134,10 @@ export interface IndexingFramePolicy {
   /**
    * Create Targets exposing the indexed content
    * @param indexed selected with the indexing
-   * @param title from {newIndexedTitle}
-   * @returns {Target[]}
+   * @param title from {newIndexedTitle} or created by framework
+   * @returns {Target} root of tree
    */
-  newIndexedTargets?: (indexed: any, indexedTitle: string) => Target[];
+  newIndexedTargets?: (indexed: any, indexedTitle: string) => Target;
 }
 /**
 * Constructs a new Superficial application core.

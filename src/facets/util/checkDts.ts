@@ -21,7 +21,7 @@ function main() {
     if (false && line !== '') console.log(line);
     return line;
   });
-  let unmatched = 0;
+  let unmatched = [];
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
   console.log('signatures=%s, unmatched=%s', signatures.length, unmatched);
@@ -32,14 +32,14 @@ function main() {
     else {
       const head = sig.replace(/((\w+\s*)+).*/, '$1');
       checks.map(check => {
-        if (check.startsWith(head)) return check;
+        if (check.replace(/(\w+).*/,'$1')===head) return check;
       }).forEach(check => {
         if (check && insert === '') insert = insert + '+' + check + '\n';
       });
       if (insert === '') {
         insert = '?' + (true ? '' : head);
         if (false) console.log(head);
-        unmatched++;
+        unmatched.push('\n'+sig);
       }
     }
     if (!insert.startsWith('='))
@@ -53,20 +53,20 @@ function ts2java(ts: string) {
     .replace(': () => void', '(): void')
     .replace('(state: SimpleState) => void', 'any')
     .replace(': SimpleState', ': any');
-  if (ts.match(_params)) java = javaParams(java);
+  if (ts.match(_params)&&java.includes('=>')) java = javaParams(java);
   if (false && ts !== java) console.log('java=' + java);
   return java;
 }
 function javaParams(java: string) {
-  let _param = /\b\w+:/g;
+  const _param = /\b\w+:/g;
   let params = java.replace(_params, '$1'), params_ = params + '';
   let pAt = 1;
   params_.match(_param).forEach(match => {
-    let match_ = match.replace(_param, 'p' + pAt++ + ':');
-    // console.log(match,match_);
+    const match_ = match.replace(_param, 'p' + pAt++ + ':');
     params_=params_.replace(match, match_);
   });
-  console.log(java=java.replace(params,params_));
-  return java;
+  const java_=java.replace(params,params_);
+  if(false)console.log(java+'\n',java_);
+  return java_;
 }
 main();
