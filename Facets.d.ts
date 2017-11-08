@@ -13,7 +13,7 @@ import { NumberPolicy } from '../util/NumberPolicy';
 import { Tracer } from '../util/Tracer';
 export declare class Facets extends Tracer {
     times: Facets.Times;
-    doTrace: boolean;
+    __doTrace: boolean;
     __onRetargeted: any;
     titleTargeters: any;
     targeterTree: STargeter;
@@ -24,12 +24,12 @@ export declare class Facets extends Tracer {
      *
      * @param {string} msg
      */
-    traceOutput(msg: string): void;
+    doTrace(msg: string): void;
     newTextualTarget(title: string, c: Facets.TextualCoupler): STarget;
     newTogglingTarget(title: string, c: Facets.TogglingCoupler): STarget;
     newNumericTarget(title: string, c: Facets.NumericCoupler): STarget;
     newTriggerTarget(title: string, c: Facets.TargetCoupler): STarget;
-    newTargetGroup(title: string, ...members: STarget[]): STarget;
+    newTargetGroup(title: string, members: STarget[]): STarget;
     updatedTarget(target: STarget, c: Facets.TargetCoupler): void;
     newIndexingTarget(title: string, c: Facets.IndexingCoupler): STarget;
     getIndexingState(title: string): Facets.IndexingState;
@@ -80,13 +80,24 @@ export declare namespace Facets {
         indexed: any;
     }
     interface IndexingFramePolicy {
-        indexingFrameTitle?: string;
         indexingTitle: string;
         getIndexables: () => any[];
+        frameTitle?: string;
         newUiSelectable?: (p1: any) => string;
         newFrameTargets?: () => STarget[];
-        newIndexedTargetsTitle?: (p1: any) => string;
-        newIndexedTargets?: (p1: any, p2: string) => STarget;
+        newIndexedTreeTitle?: (p1: any) => string;
+        newIndexedTree?: (p1: any, p2: string) => STarget;
+    }
+    class LocalIndexingFrame extends IndexingFrame {
+        p: Facets.IndexingFramePolicy;
+        constructor(title: string, indexing: SIndexing, p: Facets.IndexingFramePolicy);
+        lazyElements(): STarget[];
+        /**
+         *
+         * @param {*} indexed
+         * @return {*}
+         */
+        newIndexedTargets(indexed: any): STarget;
     }
     class LocalFrameTarget extends SFrameTarget {
         newIndexedTargets: STarget[];
@@ -113,7 +124,7 @@ export declare namespace Facets {
     interface IndexingCoupler extends Facets.TargetCoupler {
         passIndex: number;
         getIndexables: (p1: string) => any[];
-        getUiSelectables: (p1: string) => string[];
+        newUiSelectable: (p1: any) => string;
     }
     class Facets$0 implements Notifiable {
         __parent: any;
@@ -229,20 +240,7 @@ export declare namespace Facets {
         getFacetSelectables(i: SIndexing): string[];
         constructor(__parent: any, p: any);
     }
-    class Facets$7 extends IndexingFrame {
-        private p;
-        private title;
-        __parent: any;
-        lazyElements(): STarget[];
-        /**
-         *
-         * @param {*} indexed
-         * @return {*}
-         */
-        newIndexedTargets(indexed: any): STarget;
-        constructor(__parent: any, __arg0: any, __arg1: any, p: any, title: any);
-    }
-    class Facets$8 extends SFrameTarget {
+    class Facets$7 extends SFrameTarget {
         private asTargets;
         __parent: any;
         /**
@@ -252,7 +250,7 @@ export declare namespace Facets {
         lazyElements(): STarget[];
         constructor(__parent: any, __arg0: any, __arg1: any, asTargets: any);
     }
-    class Facets$9 implements SFacet {
+    class Facets$8 implements SFacet {
         private facetUpdated;
         __parent: any;
         id: number;

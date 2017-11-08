@@ -1,27 +1,25 @@
 import * as fs from 'fs-extra';
 import { traceThing } from './export';
 
-const winBreak = /\r\n/;
+const _winBreak = /\r\n/, _params = /.*(\([^)]+\)).*/;
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
-const _params = /.*(\([^)]+\)).*/;
 function main() {
-  let content = fs.readFileSync(src, 'utf8').replace(winBreak, '\n');
+  let content = fs.readFileSync(src, 'utf8').replace(_winBreak, '\n');
+  const checks: string[] = fs.readFileSync(facets, 'utf8').split(_winBreak)
+    .map(check => {
+    if (!check.match(/.*[:{].*/)
+      || check.match(/.*\*|__|\$.*/)
+      || check.includes('import')
+      || check.includes('constructor')
+      || check.includes('namespace')
+    ) check = '';
+    return check.replace('Facets.', '').trim();
+  });
+  let unmatched = [];
   const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
     .map(withComment => {
       return withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
     });
-  const checks: string[] = fs.readFileSync(facets, 'utf8').split(winBreak).map(line => {
-    if (!line.match(/.*[:{].*/)
-      || line.match(/.*\*|__|\$.*/)
-      || line.includes('import')
-      || line.includes('constructor')
-      || line.includes('namespace')
-    ) line = '';
-    line = line.replace('Facets.', '').trim();
-    if (false && line !== '') console.log(line);
-    return line;
-  });
-  let unmatched = [];
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
   console.log('signatures=%s, unmatched=%s', signatures.length, unmatched);
