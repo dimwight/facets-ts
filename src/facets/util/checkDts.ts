@@ -10,6 +10,7 @@ const unmatchables=[
 'identity(): any;',
 'supplement: any;',
 'function newInstance(trace: boolean): Facets;',
+'onRetargeted: (activeTitle:string) => void;',
 ];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];

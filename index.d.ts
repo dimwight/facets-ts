@@ -192,6 +192,17 @@ export interface Facets {
   /** */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
   /**
+   * Add a content tree to the application. 
+   * The tree added becomes the active tree
+   * @param {Target} add to be added
+   */
+  addContentTree(add: Target): void;
+  /**
+   * Activate an existing content tree. 
+   * @param {string} title identifies the tree
+   */
+  activateContentTree(title: string): void;
+  /**
    * Constructs a tree of targeters using the initial target tree.
    * @param {Target} targetTree the root of the target tree
    */
@@ -229,8 +240,11 @@ export interface Facets {
   setTargetLive(title: string, live: boolean): void;
   /** */
   isTargetLive(title: string): boolean;
-  /** */
-  onRetargeted: () => void;
+  /**
+   * Called by the application after retargeting the target tree but
+   * before retargeting facets. 
+   */
+  onRetargeted: (activeTitle:string) => void;
   /** */
   identity(): any;
   /** */

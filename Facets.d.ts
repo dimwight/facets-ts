@@ -14,30 +14,35 @@ import { Tracer } from '../util/Tracer';
 export declare class Facets extends Tracer {
     times: Facets.Times;
     doTrace: boolean;
-    __onRetargeted: any;
     titleTargeters: any;
+    titleTrees: any;
     targeterTree: STargeter;
     notifiable: Notifiable;
-    constructor(top: string, trace: boolean);
+    root: IndexingFrame;
     /**
      *
      * @param {string} msg
      */
     doTraceMsg(msg: string): void;
+    constructor(top: string, trace: boolean);
+    addContentTree(add: STarget): void;
+    activateContentTree(title: string): void;
+    buildTargeterTree(targetTree: STarget): void;
+    putTitleTargeters(t: STargeter): void;
+    __onRetargeted: any;
+    onRetargeted(): void;
+    newIndexingFrame(p: Facets.IndexingFramePolicy): STarget;
     newTextualTarget(title: string, c: Facets.TextualCoupler): STarget;
     newTogglingTarget(title: string, c: Facets.TogglingCoupler): STarget;
     newNumericTarget(title: string, c: Facets.NumericCoupler): STarget;
     newTriggerTarget(title: string, c: Facets.TargetCoupler): STarget;
     newTargetGroup(title: string, members: STarget[]): STarget;
     updatedTarget(target: STarget, c: Facets.TargetCoupler): void;
-    newIndexingTarget(title: string, c: Facets.IndexingCoupler): STarget;
     getIndexingState(title: string): Facets.IndexingState;
     indexingFrames: number;
-    newIndexingFrame(p: Facets.IndexingFramePolicy): STarget;
+    newIndexingTarget(title: string, c: Facets.IndexingCoupler): STarget;
     getTargetFramed(title: string): any;
     newFrameTarget(title: string, toFrame: any, editTargets: any[]): STarget;
-    buildTargeterTree(targetTree: STarget): void;
-    putTitleTargeters(t: STargeter): void;
     titleTarget(title: string): STarget;
     attachFacet(title: string, facetUpdated: any): void;
     updateTargetState(title: string, update: any): void;
@@ -46,37 +51,8 @@ export declare class Facets extends Tracer {
     getTargetState(title: string): any;
     setTargetLive(title: string, live: boolean): void;
     isTargetLive(title: string): boolean;
-    addContent (add:STarget):void;
-    addContent (add:STarget):void;
-	buildTargeterTree():void;
-	onRetargeted:(string)=> void;
-	activateContent(title:string):void;
-
 }
 export declare namespace Facets {
-    class Times {
-        __parent: any;
-        doTime: boolean;
-        resetWait: number;
-        then: number;
-        start: number;
-        restarted: boolean;
-        debug: boolean;
-        setResetWait(millis: number): void;
-        /**
-         * The time since the last auto-reset.
-         * <p>Interval for reset set by {@link #resetWait}.
-         * @return {number}
-         */
-        elapsed(): number;
-        /**
-         * Print {@link #elapsed()} followed by the message.
-         * @param {string} msg
-         */
-        traceElapsed(msg: string): void;
-        newMillis(): number;
-        constructor(__parent: any);
-    }
     interface TargetCoupler {
         targetStateUpdated?: (p1: any, p2: string) => void;
     }
@@ -113,6 +89,29 @@ export declare namespace Facets {
          */
         lazyElements(): STarget[];
     }
+    class Times {
+        __parent: any;
+        doTime: boolean;
+        resetWait: number;
+        then: number;
+        start: number;
+        restarted: boolean;
+        debug: boolean;
+        setResetWait(millis: number): void;
+        /**
+         * The time since the last auto-reset.
+         * <p>Interval for reset set by {@link #resetWait}.
+         * @return {number}
+         */
+        elapsed(): number;
+        /**
+         * Print {@link #elapsed()} followed by the message.
+         * @param {string} msg
+         */
+        traceElapsed(msg: string): void;
+        newMillis(): number;
+        constructor(__parent: any);
+    }
     interface TextualCoupler extends Facets.TargetCoupler {
         passText?: string;
         getText?: (p1: string) => string;
@@ -145,7 +144,37 @@ export declare namespace Facets {
         title(): string;
         constructor(__parent: any);
     }
-    class Facets$1 extends STextual.Coupler {
+    class Facets$1 extends SIndexing.Coupler {
+        __parent: any;
+        thenIndexables: any[];
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getIndexables(i: SIndexing): any[];
+        constructor(__parent: any);
+    }
+    class Facets$2 extends SIndexing.Coupler {
+        private p;
+        __parent: any;
+        thenIndexables: any[];
+        thenSelectables: any[];
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getIndexables(i: SIndexing): any[];
+        /**
+         *
+         * @param {SIndexing} i
+         * @return {Array}
+         */
+        getFacetSelectables(i: SIndexing): string[];
+        constructor(__parent: any, p: any);
+    }
+    class Facets$3 extends STextual.Coupler {
         private c;
         __parent: any;
         /**
@@ -168,7 +197,7 @@ export declare namespace Facets {
         isValidText(t: STextual, text: string): boolean;
         constructor(__parent: any, c: any);
     }
-    class Facets$2 extends SToggling.Coupler {
+    class Facets$4 extends SToggling.Coupler {
         private c;
         __parent: any;
         /**
@@ -178,7 +207,7 @@ export declare namespace Facets {
         stateSet(target: SToggling): void;
         constructor(__parent: any, c: any);
     }
-    class Facets$3 extends SNumeric.Coupler {
+    class Facets$5 extends SNumeric.Coupler {
         private c;
         __parent: any;
         /**
@@ -194,7 +223,7 @@ export declare namespace Facets {
         policy(n: SNumeric): NumberPolicy;
         constructor(__parent: any, c: any);
     }
-    class Facets$4 extends STrigger.Coupler {
+    class Facets$6 extends STrigger.Coupler {
         private c;
         __parent: any;
         /**
@@ -204,7 +233,7 @@ export declare namespace Facets {
         fired(t: STrigger): void;
         constructor(__parent: any, c: any);
     }
-    class Facets$5 extends SIndexing.Coupler {
+    class Facets$7 extends SIndexing.Coupler {
         private c;
         __parent: any;
         /**
@@ -226,26 +255,7 @@ export declare namespace Facets {
         getFacetSelectables(i: SIndexing): string[];
         constructor(__parent: any, c: any);
     }
-    class Facets$6 extends SIndexing.Coupler {
-        private p;
-        __parent: any;
-        thenIndexables: any[];
-        thenSelectables: any[];
-        /**
-         *
-         * @param {SIndexing} i
-         * @return {Array}
-         */
-        getIndexables(i: SIndexing): any[];
-        /**
-         *
-         * @param {SIndexing} i
-         * @return {Array}
-         */
-        getFacetSelectables(i: SIndexing): string[];
-        constructor(__parent: any, p: any);
-    }
-    class Facets$7 extends SFrameTarget {
+    class Facets$8 extends SFrameTarget {
         private asTargets;
         __parent: any;
         /**
@@ -255,7 +265,7 @@ export declare namespace Facets {
         lazyElements(): STarget[];
         constructor(__parent: any, __arg0: any, __arg1: any, asTargets: any);
     }
-    class Facets$8 implements SFacet {
+    class Facets$9 implements SFacet {
         private facetUpdated;
         __parent: any;
         id: number;
