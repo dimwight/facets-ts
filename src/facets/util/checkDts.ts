@@ -2,15 +2,15 @@ import * as fs from 'fs-extra';
 import { traceThing } from './export';
 
 const _winBreak = /\r\n/, _params = /.*(\([^)]+\)).*/;
-const unmatchables:string=JSON.parse(`[
-"interface Target{}",
-"type SimpleState=string|boolean|number",
-"interface Times {",
-"interface Facets {",
-"identity(): any;",
-"supplement: any;",
-"function newInstance(trace: boolean): Facets;"
-]`);
+const unmatchables=[
+'interface Target{}',
+'type SimpleState=string|boolean|number',
+'interface Times {',
+'interface Facets {',
+'identity(): any;',
+'supplement: any;',
+'function newInstance(trace: boolean): Facets;',
+];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];
 function main() {
