@@ -12,6 +12,7 @@ const unmatchables:string=JSON.parse(`[
 "function newInstance(trace: boolean): Facets;"
 ]`);
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
+let unmatched = [];
 function main() {
   let content = fs.readFileSync(src, 'utf8').replace(_winBreak, '\n');
   const checks: string[] = fs.readFileSync(facets, 'utf8').split(_winBreak)
@@ -22,9 +23,9 @@ function main() {
       || check.includes('constructor')
       || check.includes('namespace')
     ) check = '';
-    return check.replace('Facets.', '').trim();
+    check=check.replace('Facets.', '').trim();
+    return check;
   });
-  let unmatched = [];
   const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
     .map(withComment => {
       let sig=withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
@@ -32,27 +33,30 @@ function main() {
     });
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
-  console.log('signatures=%s, unmatched=%s', signatures.length, 
-    JSON.stringify(unmatched));
+  console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string, at) {
     sig = sig.replace(/export\s*(.*)/, '$1');
-    let insert = '';
-    if (checks.includes(ts2java(sig))) insert = '=' + (true ? '' : sig);
+    if(unmatchables.includes(sig))return;
+    let marker = '';
+    if (checks.includes(ts2java(sig))) marker = '=' + (true ? '' : sig);
     else {
       const head = sig.replace(/((\w+\s*)+).*/, '$1');
       checks.map(check => {
         if (check.replace(/(\w+).*/,'$1')===head) return check;
       }).forEach(check => {
-        if (check && insert === '') insert = insert + '+' + check + '\n';
+        if (check && marker === ''){
+          if(true) marker = marker + '?' + check + '\n';
+          if(!unmatchables.includes(sig))unmatched.push(sig);
+       }
       });
-      if (insert === '') {
-        insert = '?' + (true ? '' : head);
+      if (marker === '') {
+        marker = '?' + (true ? '' : head);
+        if(!unmatched.includes(sig))unmatched.push(sig);
         if (false) console.log(head);
-        if(!unmatchables.includes(sig))unmatched.push(sig);
       }
     }
-    if (!insert.startsWith('='))
-      content = content.replace(sig, sig + '\n' + insert.trim());
+    if (!marker.startsWith('='))
+      content = content.replace(sig, sig + '\n' + marker.trim());
   }
 }
 function ts2java(ts: string) {

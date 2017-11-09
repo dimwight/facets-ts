@@ -13,18 +13,17 @@ import { NumberPolicy } from '../util/NumberPolicy';
 import { Tracer } from '../util/Tracer';
 export declare class Facets extends Tracer {
     times: Facets.Times;
-    __doTrace: boolean;
+    doTrace: boolean;
     __onRetargeted: any;
     titleTargeters: any;
     targeterTree: STargeter;
     notifiable: Notifiable;
-    onRetargeted(): void;
     constructor(top: string, trace: boolean);
     /**
      *
      * @param {string} msg
      */
-    doTrace(msg: string): void;
+    doTraceMsg(msg: string): void;
     newTextualTarget(title: string, c: Facets.TextualCoupler): STarget;
     newTogglingTarget(title: string, c: Facets.TogglingCoupler): STarget;
     newNumericTarget(title: string, c: Facets.NumericCoupler): STarget;
@@ -47,6 +46,12 @@ export declare class Facets extends Tracer {
     getTargetState(title: string): any;
     setTargetLive(title: string, live: boolean): void;
     isTargetLive(title: string): boolean;
+    addContent (add:STarget):void;
+    addContent (add:STarget):void;
+	buildTargeterTree():void;
+	onRetargeted:(string)=> void;
+	activateContent(title:string):void;
+
 }
 export declare namespace Facets {
     class Times {

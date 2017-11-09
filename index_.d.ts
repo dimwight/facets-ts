@@ -2,12 +2,10 @@
 Marker interface for Facets implementation of Superficial target.
 */
 export interface Target{}
-?
 /**
 * For passing state in and out of a simple {Target}.
 */
 export type SimpleState=string|boolean|number
-?
 /** */
 export interface TargetCoupler {
   /**
@@ -147,7 +145,6 @@ export interface IndexingFramePolicy {
 * @returns {Facets}
 */
 export interface Times {
-?
   /** */
   doTime: boolean;
   /** */
@@ -164,12 +161,10 @@ export interface Times {
 * A Superficial application core.
 */
 export interface Facets {
-?
   /** */
   times: Times;
   /** */
   doTrace: boolean;
-+doTrace(msg: string): void;
   /**
    *
    * @param {string} title identifies the target or its targeter
@@ -236,13 +231,11 @@ export interface Facets {
   isTargetLive(title: string): boolean;
   /** */
   onRetargeted: () => void;
+?onRetargeted:(string)=> void;
   /** */
   identity(): any;
-?
   /** */
   supplement: any;
-?
 }
 /** */
 export function newInstance(trace: boolean): Facets;
-?
