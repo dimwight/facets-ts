@@ -2,6 +2,15 @@ import * as fs from 'fs-extra';
 import { traceThing } from './export';
 
 const _winBreak = /\r\n/, _params = /.*(\([^)]+\)).*/;
+const unmatchables:string=JSON.parse(`[
+"interface Target{}",
+"type SimpleState=string|boolean|number",
+"interface Times {",
+"interface Facets {",
+"identity(): any;",
+"supplement: any;",
+"function newInstance(trace: boolean): Facets;"
+]`);
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 function main() {
   let content = fs.readFileSync(src, 'utf8').replace(_winBreak, '\n');
@@ -18,11 +27,13 @@ function main() {
   let unmatched = [];
   const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
     .map(withComment => {
-      return withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
+      let sig=withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
+      return sig;
     });
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
-  console.log('signatures=%s, unmatched=%s', signatures.length, unmatched);
+  console.log('signatures=%s, unmatched=%s', signatures.length, 
+    JSON.stringify(unmatched));
   function checkSignature(sig: string, at) {
     sig = sig.replace(/export\s*(.*)/, '$1');
     let insert = '';
@@ -37,7 +48,7 @@ function main() {
       if (insert === '') {
         insert = '?' + (true ? '' : head);
         if (false) console.log(head);
-        unmatched.push('\n'+sig);
+        if(!unmatchables.includes(sig))unmatched.push(sig);
       }
     }
     if (!insert.startsWith('='))
