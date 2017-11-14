@@ -121,18 +121,18 @@ export interface IndexingFramePolicy {
    * @param {any} indexable to stringify
    * @returns {string} the string
    */
-  newUiSelectable? (indexable: any):string;
+  newUiSelectable? (indexable: any) : string;
   /**
    * Create {@link Target}s to be children of the framing {@link Target}
    * @returns {Target[]} the targets
    */
-  newFrameTargets? () :Target[];
+  newFrameTargets? () : Target[];
   /**
    * Provides for defining different indexable types.
    * Will be passed to {@link newIndexedTree}
    * @param {any} indexed selected with the framed indexing {@link Target}
    */
-  newIndexedTreeTitle? (indexed: any): string;
+  newIndexedTreeTitle? (indexed: any) : string;
   /**
    * Create {@link Target}s exposing the indexed content
    * @param {any} indexed selected with the framed indexing {@link Target}
@@ -150,7 +150,7 @@ export interface Times {
   /** 
    * Set the automatic reset timeout and reset {@link elapsed()}. 
    */
-  setResetWait(ms: number): void;
+  setResetWait(millis: number): void;
   /**
    * Time in ms since the last (usually automatic) reset.
    */
@@ -169,7 +169,7 @@ export interface Facets {
    * Identifies built-in textual {@link Target} exposing active content title. 
    * Any attempt to update state will throw an error. 
    */
-  static TITLE_CONTENT_ACTIVE: string;
+  TITLE_CONTENT_ACTIVE: string;
   /**
    *  Built-in instance.
    */
@@ -283,11 +283,11 @@ export interface Facets {
 interface FacetsApp {
   /** Define at least one tree of {@link Target}s to be exposed in the UI.  
    */
-  getContentTrees(): Target|Target[];
+  getContentTrees (): Target|Target[];
   /** Called after retargeting {@link Target} trees but
    * before retargeting facets in the UI. 
    */
-  onRetargeted(activeTitle: string): void;
+  onRetargeted (activeTitle: string): void;
   /** Construct a UI with facets exposing the {@link Target}s created
    * in {@link getContentTrees()}.
    * @param {string}activeTitle the {@link Target} last created in {@link getContentTrees()}

@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import { traceThing } from './export';
+import { log } from 'util';
 
 const _winBreak = /\r\n/, _params = /.*(\([^)]+\)).*/;
 const unmatchables=[
@@ -11,6 +12,7 @@ const unmatchables=[
 'supplement: any;',
 'function newInstance(trace: boolean): Facets;',
 'onRetargeted: (activeTitle:string) => void;',
+'buildLayout(): void;',
 ];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];
@@ -36,7 +38,7 @@ function main() {
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
   if(false)console.log('signatures=%s, unmatched=', signatures.length, unmatched);
-  function checkSignature(sig: string, at) {
+  function checkSignature(sig: string) {
     sig = sig.replace(/export\s*(.*)/, '$1');
     if(unmatchables.includes(sig))return;
     let marker = '';
@@ -45,11 +47,16 @@ function main() {
       const head = sig.replace(/((\w+\s*)+).*/, '$1');
       checks.map(check => {
         if (check.replace(/(\w+).*/,'$1')===head) return check;
-      }).forEach(check => {
-        if (check && marker === ''){
-          if(true) marker = marker + '?' + check + '\n';
-          if(!unmatchables.includes(sig))unmatched.push(sig);
-       }
+      }).forEach(headMatch => {
+        if (headMatch && marker === ''){
+          const params: any = ts2java(sig,true);
+          if(params!==headMatch&&!unmatchables.includes(sig)){
+            console.log(headMatch);
+            console.log(params);
+            if(true) marker = marker + '?' + headMatch + '\n';
+            unmatched.push(sig);
+          }
+        }
       });
       if (marker === '') {
         marker = '?' + (true ? '' : head);
@@ -61,15 +68,15 @@ function main() {
       content = content.replace(sig, sig + '\n' + marker.trim());
   }
 }
-function ts2java(ts: string) {
+function ts2java(ts: string,params?) {
   let ts_ = ts.replace('coupler:', 'c:')
     .replace(/\bTarget\b/g, 'STarget')
     .replace(/\bpolicy\b/, 'p')
     .replace(': () => void', '(): void')
     .replace('(state: SimpleState) => void', 'any')
     .replace(': SimpleState', ': any');
-    if (ts.match(_params)&&ts_.match(/asd/)) ts_ = javaParams(ts_);
-    if (true && ts !== ts_) console.log(ts_+'\n'+ts);
+    if (ts.match(_params)&&params) ts_ = javaParams(ts_);
+    if (false && ts !== ts_) console.log(ts_+'\n'+ts);
   return ts_;
 }
 function javaParams(java: string) {
