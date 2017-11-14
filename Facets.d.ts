@@ -27,9 +27,9 @@ export declare class Facets extends Tracer {
     constructor(top: string, trace: boolean);
     addContentTree(add: STarget): void;
     activateContentTree(title: string): void;
-    buildTargeterTree(targetTree: STarget): void;
+    buildTargeterTree(): void;
     putTitleTargeters(t: STargeter): void;
-    __onRetargeted: any;
+    __onRetargeted: (p1: string) => void;
     onRetargeted(): void;
     newIndexingFrame(p: Facets.IndexingFramePolicy): STarget;
     newTextualTarget(title: string, c: Facets.TextualCoupler): STarget;

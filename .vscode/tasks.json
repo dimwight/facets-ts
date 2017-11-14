@@ -21,6 +21,17 @@
       "problemMatcher": [
         "$tsc"
       ]
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "facets-ts\\tsconfig.json",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

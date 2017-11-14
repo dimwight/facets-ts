@@ -24,6 +24,7 @@ function main() {
       || check.includes('constructor')
       || check.includes('namespace')
     ) check = '';
+    check=check.replace(/:\s*\(/,' (').replace(/=>/,':');
     check=check.replace('Facets.', '').trim();
     return check;
   });
@@ -34,7 +35,7 @@ function main() {
     });
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
-  console.log('signatures=%s, unmatched=', signatures.length, unmatched);
+  if(false)console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string, at) {
     sig = sig.replace(/export\s*(.*)/, '$1');
     if(unmatchables.includes(sig))return;
@@ -61,15 +62,15 @@ function main() {
   }
 }
 function ts2java(ts: string) {
-  let java = ts.replace('coupler:', 'c:')
+  let ts_ = ts.replace('coupler:', 'c:')
     .replace(/\bTarget\b/g, 'STarget')
     .replace(/\bpolicy\b/, 'p')
     .replace(': () => void', '(): void')
     .replace('(state: SimpleState) => void', 'any')
     .replace(': SimpleState', ': any');
-  if (ts.match(_params)&&java.includes('=>')) java = javaParams(java);
-  if (false && ts !== java) console.log('java=' + java);
-  return java;
+    if (ts.match(_params)&&ts_.match(/asd/)) ts_ = javaParams(ts_);
+    if (true && ts !== ts_) console.log(ts_+'\n'+ts);
+  return ts_;
 }
 function javaParams(java: string) {
   const _param = /\b\w+:/g;
