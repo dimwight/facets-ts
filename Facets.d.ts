@@ -78,6 +78,10 @@ export declare namespace Facets {
     class LocalIndexingFrame extends IndexingFrame {
         p: Facets.IndexingFramePolicy;
         constructor(title: string, indexing: SIndexing, p: Facets.IndexingFramePolicy);
+        /**
+         *
+         * @return {Array}
+         */
         lazyElements(): STarget[];
         /**
          *

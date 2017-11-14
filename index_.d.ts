@@ -14,7 +14,6 @@ export interface TargetCoupler {
    * @param {string} title identifies the {@link Target}
    */
   targetStateUpdated? (state: SimpleState, title: string) : void;
-?
 }
 /**
  Connects a textual {@link Target} with client code.
@@ -32,7 +31,6 @@ export interface TextualCoupler extends TargetCoupler {
    * @returns {string} the textual state
    */
   getText? (title: string) : string;
-?getText(t: STextual): string;
   /**
    * Allows validation of changed text state
    * @param {string} text to validate
@@ -40,7 +38,6 @@ export interface TextualCoupler extends TargetCoupler {
    * @returns {boolean} true if valid
    */
   isValidText? (text: string, title: string) : boolean;
-?isValidText(t: STextual, text: string): boolean;
 }
 /**
  Connects a toggling (boolean) {@link Target} with client code.
@@ -82,15 +79,13 @@ export interface IndexingCoupler extends TargetCoupler {
    * @returns {any[]} the contents
    */
   getIndexables (title: string) : any[];
-?
+?getIndexables () : any[];
   /**
    * Get string to represent content member in the UI.
    * @param {any} indexable to stringify
    * @returns the string
    */
   newUiSelectable? (indexable: any) : string;
-?
-?
 }
 /**
  * Current values exposed by an indexing {@link Target}
@@ -139,7 +134,6 @@ export interface IndexingFramePolicy {
    * @param {any} indexed selected with the framed indexing {@link Target}
    */
   newIndexedTreeTitle? (indexed: any) : string;
-?
   /**
    * Create {@link Target}s exposing the indexed content
    * @param {any} indexed selected with the framed indexing {@link Target}
@@ -147,7 +141,6 @@ export interface IndexingFramePolicy {
    * @returns {Target} root of tree
    */
   newIndexedTree? (indexed: any, indexedTreeTitle: string) : Target;
-?
 }
 /** Manages time tracing by its containing {@link Facets}. */
 export interface Times {
@@ -178,12 +171,10 @@ export interface Facets {
    * Any attempt to update state will throw an error. 
    */
   TITLE_CONTENT_ACTIVE: string;
-?
   /**
    *  Built-in instance.
    */
-  readonly times: Times;
-?
+  times: Times;
   /**
    * Should the {@link Facets} instance issue trace messages? 
    */
@@ -243,12 +234,6 @@ export interface Facets {
    */
   activateContentTree(title: string): void;
   /**
-   * Constructs a tree of targeters using the initial {@link Target} tree.
-   * @param {{@link Target}} targetTree the root of the {@link Target} tree
-   */
-  buildTargeterTree(): void;
-?
-  /**
    * Attach an internal facet to the targeter with the {@link Target} title passed.
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the {@link Target} state
@@ -295,12 +280,10 @@ interface FacetsApp {
   /** Define at least one tree of {@link Target}s to be exposed in the UI.  
    */
   getContentTrees (): Target|Target[];
-?
   /** Called after retargeting {@link Target} trees but
    * before retargeting facets in the UI. 
    */
-  onRetargeted (activeTitle: string): void;
-?
+  onRetargeted (activeTitle: string) : void;
   /** Construct a UI with facets exposing the {@link Target}s created
    * in {@link getContentTrees()}.
    * @param {string}activeTitle the {@link Target} last created in {@link getContentTrees()}

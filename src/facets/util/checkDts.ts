@@ -13,6 +13,7 @@ const unmatchables=[
 'function newInstance(trace: boolean): Facets;',
 'onRetargeted: (activeTitle:string) => void;',
 'buildLayout(): void;',
+'getContentTrees (): Target|Target[];',
 ];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];
@@ -26,7 +27,7 @@ function main() {
       || check.includes('constructor')
       || check.includes('namespace')
     ) check = '';
-    check=check.replace(/:\s*\(/,' (').replace(/=>/,':');
+    check=check.replace(/:\s*\(/,' (').replace(/=>/,':').replace('static','');
     check=check.replace('Facets.', '').trim();
     return check;
   });
@@ -37,23 +38,26 @@ function main() {
     });
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
-  if(false)console.log('signatures=%s, unmatched=', signatures.length, unmatched);
+  if(true)console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string) {
     sig = sig.replace(/export\s*(.*)/, '$1');
     if(unmatchables.includes(sig))return;
     let marker = '';
     if (checks.includes(ts2java(sig))) marker = '=' + (true ? '' : sig);
     else {
-      const head = sig.replace(/((\w+\s*)+).*/, '$1');
+      // console.log(sig);
+      const head = sig.replace(/((\w+\s*)+).*/, '$1').trim();
+      // console.log(head);
       checks.map(check => {
         if (check.replace(/(\w+).*/,'$1')===head) return check;
-      }).forEach(headMatch => {
+      }).forEach(headMatch => {      
         if (headMatch && marker === ''){
+          // console.log(headMatch);
           const params: any = ts2java(sig,true);
-          if(params!==headMatch&&!unmatchables.includes(sig)){
-            console.log(headMatch);
-            console.log(params);
+          if(params===headMatch) marker = '=' + (true ? '' : sig);
+          else if(!unmatchables.includes(sig)){
             if(true) marker = marker + '?' + headMatch + '\n';
+            console.log(headMatch+'\n'+params);
             unmatched.push(sig);
           }
         }

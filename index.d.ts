@@ -173,7 +173,7 @@ export interface Facets {
   /**
    *  Built-in instance.
    */
-  readonly times: Times;
+  times: Times;
   /**
    * Should the {@link Facets} instance issue trace messages? 
    */
@@ -233,11 +233,6 @@ export interface Facets {
    */
   activateContentTree(title: string): void;
   /**
-   * Constructs a tree of targeters using the initial {@link Target} tree.
-   * @param {{@link Target}} targetTree the root of the {@link Target} tree
-   */
-  buildTargeterTree(): void;
-  /**
    * Attach an internal facet to the targeter with the {@link Target} title passed.
    * @param {string} title identifies the targeter
    * @param {(state) => void} facetUpdated callback to update the UI with the {@link Target} state
@@ -287,7 +282,7 @@ interface FacetsApp {
   /** Called after retargeting {@link Target} trees but
    * before retargeting facets in the UI. 
    */
-  onRetargeted (activeTitle: string): void;
+  onRetargeted (activeTitle: string) : void;
   /** Construct a UI with facets exposing the {@link Target}s created
    * in {@link getContentTrees()}.
    * @param {string}activeTitle the {@link Target} last created in {@link getContentTrees()}
