@@ -229,8 +229,10 @@ export interface Facets {
    *  */
   newIndexingFrame(policy: IndexingFramePolicy): Target;
   /** Adds a content tree to the application.
-   * The tree added becomes the active tree with its title passed to {@link FacetsApp#onRetargeted}; 
-   * it replaces any existing tree with the same title, thus ensuring synchronisation of the UI.  
+   * The tree added becomes the active tree with its title passed 
+   * to {@link FacetsApp#onRetargeted}; 
+   * it replaces any existing tree with the same title, thus ensuring 
+   * synchronisation of the UI.  
    * @param {Target} add the new tree
    */
   addContentTree(add: Target): void;
@@ -300,7 +302,8 @@ interface FacetsApp {
   getContentTrees(): Target|Target[];
   /** Called by framework after retargeting {@link Target} trees but
    * before updating facets in the UI.
-   * @param {string} activeTitle the {@link Target} last created in {@link getContentTrees()}
+   * @param {string} activeTitle the {@link Target} last created 
+   * in {@link getContentTrees()}
    * or {@link Facets#addContentTree()},
    * or whose title was last passed to {@link Facets#activateContentTree()}.
    */
