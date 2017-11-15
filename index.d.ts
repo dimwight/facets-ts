@@ -36,7 +36,7 @@ export interface TextualCoupler extends TargetCoupler {
    * @param {string} title identifies the {@link Target}
    * @returns {string} the textual state
    */
-  getText?(title: string) : string;
+  getText? (title: string) : string;
   /**
    * Allows validation of changed text state
    * @param {string} text to validate
@@ -127,25 +127,25 @@ export interface IndexingFramePolicy {
    * @param {any} indexable to stringify
    * @returns {string} the string
    */
-  newUiSelectable? (indexable: any):string;
+  newUiSelectable? (indexable: any) : string;
   /**
    * Create {@link Target}s to be children of the framing {@link Target}
    * @returns {Target[]} the targets
    */
-  newFrameTargets? () :Target[];
+  newFrameTargets? () : Target[];
   /**
    * Provides for defining different indexable types.
    * Will be passed to {@link newIndexedTree}
    * @param {any} indexed selected with the framed indexing {@link Target}
    */
-  newIndexedTreeTitle? (indexed: any): string;
+  newIndexedTreeTitle? (indexed: any) : string;
   /**
    * Create {@link Target}s exposing the indexed content
    * @param {any} indexed selected with the framed indexing {@link Target}
    * @param title from {@link newIndexedTreeTitle} or created by framework
    * @returns {Target} root of tree
    */
-  newIndexedTree ? (indexed: any, title: string) : Target;
+  newIndexedTree? (indexed: any, title: string) : Target;
 }
 /** Manages time tracing by its containing {@link Facets}. */
 export interface Times {
@@ -156,7 +156,7 @@ export interface Times {
   /**
    * Set the automatic reset timeout and reset {@link elapsed()}.
    */
-  setResetWait(ms: number): void;
+  setResetWait(millis: number): void;
   /**
    * Time in ms since the last (usually automatic) reset.
    */
@@ -173,13 +173,13 @@ export interface Times {
 export interface Facets {
   /**
    * Identifies built-in textual {@link Target} exposing active content title.
-   * Any attempt to update state will throw an error.
+   * Updating state directly using this title will throw an error.
    */
-  readonly activeContentTitle: string;
+  activeContentTitle: string;
   /**
    *  Built-in instance.
    */
-  readonly times: Times;
+  times: Times;
   /**
    * Should the {@link Facets} instance issue trace messages?
    */
@@ -307,7 +307,7 @@ interface FacetsApp {
    * or {@link Facets#addContentTree()},
    * or whose title was last passed to {@link Facets#activateContentTree()}.
    */
-  onRetargeted(activeTitle: string): void;
+  onRetargeted (activeTitle: string) : void;
   /** Construct a UI with facets exposing {@link Target}s defined
    * in {@link getContentTrees()}.
    */

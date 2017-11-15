@@ -14,6 +14,7 @@ const unmatchables=[
 'onRetargeted: (activeTitle:string) => void;',
 'buildLayout(): void;',
 'getContentTrees (): Target|Target[];',
+'type FacetUpdater=(state: SimpleState) => void',
 ];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];
@@ -27,7 +28,7 @@ function main() {
       || check.includes('constructor')
       || check.includes('namespace')
     ) check = '';
-    check=check.replace(/:\s*\(/,' (').replace(/=>/,':').replace('static','');
+    check=check.replace(/:\s*\(/,' (').replace(/=>/,':').replace('readonly ','');
     check=check.replace('Facets.', '').trim();
     return check;
   });
@@ -57,12 +58,11 @@ function main() {
           if(params===headMatch){
             marker = '=' + (true ? '' : sig);
             let at=unmatched.indexOf(sig);
-            if(at>=0)unmatched.splice(unmatched.slice(0,at),0,unmatched.slice(at))
           }
           else if(!unmatchables.includes(sig)){
             marker ='?' + headMatch + '\n';
-            // console.log(headMatch+'\n!'+params);
-            unmatched.push(sig);
+            if(!unmatched.includes(sig))unmatched.push(sig);
+            console.log(headMatch+'\n!'+params);
           }
         }
       });
@@ -82,6 +82,9 @@ function ts2java(ts: string,params?) {
     .replace(/\bpolicy\b/, 'p')
     .replace(': () => void', '(): void')
     .replace('(state: SimpleState) => void', 'any')
+    .replace('(state: SimpleState) => void', 'any')
+    .replace(': STarget|STarget[]', ': any')
+    .replace(': FacetUpdater', ': any')
     .replace(': SimpleState', ': any');
     if (ts.match(_params)&&params) ts_ = javaParams(ts_);
     if (false && ts !== ts_) console.log(ts_+'\n'+ts);

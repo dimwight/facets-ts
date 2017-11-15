@@ -12,7 +12,7 @@ import { STrigger } from '../core/STrigger';
 import { NumberPolicy } from '../util/NumberPolicy';
 import { Tracer } from '../util/Tracer';
 export declare class Facets extends Tracer {
-    static TITLE_CONTENT_ACTIVE: string;
+    activeContentTitle: string;
     times: Facets.Times;
     doTrace: boolean;
     titleTargeters: any;
@@ -44,7 +44,7 @@ export declare class Facets extends Tracer {
     newIndexingFrame(p: Facets.IndexingFramePolicy): STarget;
     getTargetFramed(title: string): any;
     titleTarget(title: string): STarget;
-    attachFacet(title: string, facetUpdated: any): void;
+    attachFacet(title: string, updater: any): void;
     updateTargetState(title: string, update: any): void;
     notifyTargetUpdated(title: string): void;
     updateTargetWithNotify(title: string, update: any): void;
@@ -183,13 +183,6 @@ export declare namespace Facets {
              * @return {string}
              */
             getText(t: STextual): string;
-            /**
-             *
-             * @param {STextual} t
-             * @param {string} text
-             * @return {boolean}
-             */
-            isValidText(t: STextual, text: string): boolean;
             constructor(__parent: any);
         }
     }
