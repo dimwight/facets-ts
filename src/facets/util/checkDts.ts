@@ -56,13 +56,17 @@ function main() {
           // console.log('?'+headMatch);
           const params = ts2java(sig,true);
           if(params===headMatch){
+            if(unmatched.includes(sig)){
+              if(unmatched.length===1)unmatched=[];
+              else console.log(unmatched);
+            }
             marker = '=' + (true ? '' : sig);
             let at=unmatched.indexOf(sig);
           }
           else if(!unmatchables.includes(sig)){
             marker ='?' + headMatch + '\n';
             if(!unmatched.includes(sig))unmatched.push(sig);
-            console.log(headMatch+'\n!'+params);
+            // console.log(headMatch+'\n!'+params);
           }
         }
       });
