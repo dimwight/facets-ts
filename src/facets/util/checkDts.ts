@@ -41,56 +41,50 @@ function main() {
   console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string) {
     if(unmatchables.includes(sig))return;
-    let marker = '';
-    if (checks.includes(ts2java(sig))) marker = '=' + (true ? '' : sig);
+    let marker;
+    if (checks.includes(ts2sweety(sig))) marker = '=';
     else {
-      // console.log(sig);
-      const head = sig.replace(/((\w+\s*)+).*/, '$1').trim();
-      // console.log(head);
+      const name = sig.replace(/((\w+\s*)+).*/, '$1').trim();
       checks.map(check => {
-        if (check.replace(/(\w+).*/,'$1')===head) return check;
-      }).forEach(headMatch => {      
-        if (headMatch && (marker === ''||marker.startsWith('?'))){
-          // console.log('?'+headMatch);
-          const params = ts2java(sig,true);
-          if(params===headMatch){
+        if (check.replace(/(\w+).*/,'$1')===name) return check;
+      }).forEach(nameMatch => {      
+        if (nameMatch && (!marker||marker.startsWith('?'))){
+          const sweety = ts2sweety(sig,true);
+          if(sweety===nameMatch){
+            marker = '=';
             if(unmatched.includes(sig)){
               if(unmatched.length===1)unmatched=[];
               else console.log(unmatched);
             }
-            marker = '=' + (true ? '' : sig);
-            const at=unmatched.indexOf(sig);
           }
-          else if(!unmatchables.includes(sig)){
-            marker ='?' + headMatch + '\n';
+          else {
+            marker ='?' + nameMatch + '\n';
             if(!unmatched.includes(sig))unmatched.push(sig);
-            // console.log(headMatch+'\n!'+params);
           }
         }
       });
-      if (marker === '') {
-        marker = '?' + (true ? '' : head);
+      if (!marker) {
+        marker = '?' + (true ? '' : name);
         if(!unmatched.includes(sig))unmatched.push(sig);
-        if (false) console.log(head);
+        if (false) console.log(name);
       }
     }
     if (!marker.startsWith('='))
       content = content.replace(sig, sig + '\n' + marker.trim());
   }
 }
-function ts2java(ts: string,params?) {
-  let ts_ = ts.replace('coupler:', 'c:')
+function ts2sweety(ts: string,params?) {
+  let sweety = ts
+    .replace('coupler:', 'c:')
     .replace(/\bTarget\b/g, 'STarget')
     .replace(/\bpolicy\b/, 'p')
     .replace(': () => void', '(): void')
-    .replace('(state: SimpleState) => void', 'any')
-    .replace('(state: SimpleState) => void', 'any')
     .replace(': STarget|STarget[]', ': any')
     .replace(': FacetUpdater', ': any')
     .replace(': SimpleState', ': any');
-    if (ts.match(_params)&&params) ts_ = javaParams(ts_);
-    if (false && ts !== ts_) console.log(ts_+'\n'+ts);
-  return ts_;
+    if (params&&ts.match(_params)) sweety = javaParams(sweety);
+    if (false && ts !== sweety) console.log(sweety+'\n'+ts);
+  return sweety;
 }
 function javaParams(java: string) {
   const _param = /\b\w+:/g, params = java.replace(_params, '$1');
