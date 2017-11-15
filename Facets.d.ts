@@ -287,7 +287,7 @@ export declare namespace Facets {
         constructor(__parent: any, p: any);
     }
     class Facets$9 implements SFacet {
-        private facetUpdated;
+        private updater;
         __parent: any;
         id: number;
         /**
@@ -300,7 +300,7 @@ export declare namespace Facets {
          * @return {string}
          */
         toString(): string;
-        constructor(__parent: any, facetUpdated: any);
+        constructor(__parent: any, updater: any);
     }
     class Facets$10 extends SFrameTarget {
         private asTargets;

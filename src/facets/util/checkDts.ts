@@ -1,20 +1,16 @@
 import * as fs from 'fs-extra';
-import { traceThing } from './export';
 import { log } from 'util';
 
 const _winBreak = /\r\n/, _params = /.*(\([^)]+\)).*/;
 const unmatchables=[
 'interface Target{}',
-'type SimpleState=string|boolean|number',
 'interface Times {',
 'interface Facets {',
-'identity(): any;',
+'type SimpleState=string|boolean|number',
+'type FacetUpdater=(state: SimpleState) => void',
 'supplement: any;',
 'function newInstance(trace: boolean): Facets;',
-'onRetargeted: (activeTitle:string) => void;',
 'buildLayout(): void;',
-'getContentTrees (): Target|Target[];',
-'type FacetUpdater=(state: SimpleState) => void',
 ];
 const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
 let unmatched = [];
@@ -28,20 +24,22 @@ function main() {
       || check.includes('constructor')
       || check.includes('namespace')
     ) check = '';
-    check=check.replace(/:\s*\(/,' (').replace(/=>/,':').replace('readonly ','');
-    check=check.replace('Facets.', '').trim();
-    return check;
+    return check.trim()
+      .replace(/:\s*\(/,' (')
+      .replace(/=>/,':')
+      .replace('Facets.', '');
   });
-  const signatures: string[] = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
+  const signatures = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
     .map(withComment => {
-      let sig=withComment.replace(/\/\*\*[^/]+\/\s*/, '').trim();
+      const sig=withComment.trim()
+        .replace(/\/\*\*[^/]+\/\s*/, '')
+        .replace(/export\s*(.*)/, '$1');
       return sig;
     });
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
-  if(true)console.log('signatures=%s, unmatched=', signatures.length, unmatched);
+  console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string) {
-    sig = sig.replace(/export\s*(.*)/, '$1');
     if(unmatchables.includes(sig))return;
     let marker = '';
     if (checks.includes(ts2java(sig))) marker = '=' + (true ? '' : sig);
@@ -61,7 +59,7 @@ function main() {
               else console.log(unmatched);
             }
             marker = '=' + (true ? '' : sig);
-            let at=unmatched.indexOf(sig);
+            const at=unmatched.indexOf(sig);
           }
           else if(!unmatchables.includes(sig)){
             marker ='?' + headMatch + '\n';
@@ -95,8 +93,8 @@ function ts2java(ts: string,params?) {
   return ts_;
 }
 function javaParams(java: string) {
-  const _param = /\b\w+:/g;
-  let params = java.replace(_params, '$1'), params_ = params + '';
+  const _param = /\b\w+:/g, params = java.replace(_params, '$1');
+  let params_ = params;
   let pAt = 1;
   params_.match(_param).forEach(match => {
     const match_ = match.replace(_param, 'p' + pAt++ + ':');
