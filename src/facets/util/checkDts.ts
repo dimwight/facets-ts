@@ -51,13 +51,17 @@ function main() {
       checks.map(check => {
         if (check.replace(/(\w+).*/,'$1')===head) return check;
       }).forEach(headMatch => {      
-        if (headMatch && marker === ''){
-          // console.log(headMatch);
-          const params: any = ts2java(sig,true);
-          if(params===headMatch) marker = '=' + (true ? '' : sig);
+        if (headMatch && (marker === ''||marker.startsWith('?'))){
+          // console.log('?'+headMatch);
+          const params = ts2java(sig,true);
+          if(params===headMatch){
+            marker = '=' + (true ? '' : sig);
+            let at=unmatched.indexOf(sig);
+            if(at>=0)unmatched.splice(unmatched.slice(0,at),0,unmatched.slice(at))
+          }
           else if(!unmatchables.includes(sig)){
-            if(true) marker = marker + '?' + headMatch + '\n';
-            console.log(headMatch+'\n'+params);
+            marker ='?' + headMatch + '\n';
+            // console.log(headMatch+'\n!'+params);
             unmatched.push(sig);
           }
         }

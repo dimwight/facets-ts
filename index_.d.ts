@@ -79,7 +79,6 @@ export interface IndexingCoupler extends TargetCoupler {
    * @returns {any[]} the contents
    */
   getIndexables (title: string) : any[];
-?getIndexables () : any[];
   /**
    * Get string to represent content member in the UI.
    * @param {any} indexable to stringify
