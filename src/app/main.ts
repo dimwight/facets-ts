@@ -7,7 +7,7 @@ import {
 } from '../facets/core/export';
 import {traceThing,swapArrayElement} from '../facets/util/export';
 function trace(text){
-  if(false)console.log('App > ' +text);
+  if(true)console.log('App > ' +text);
 }
 const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
 const core: Facets = Facets.newInstance(true);
