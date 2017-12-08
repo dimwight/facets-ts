@@ -50,11 +50,12 @@ export class Facets{
     let t:Targeter=this.titleTargeters.get(title);
     if(!t)throw new Error('Missing t for '+title);
     traceThing('> Attaching facet: title='+title);
-    t.attachFacet({
-      retarget(ta){
-        if(true)throw new Error('Not implemented for '+ta.title());
+    let facet={
+      retarget(ta:Target){
+        traceThing('> Facet retargeted title='+ta.title()+' state='+ta.state());
       }
-    });
+    };
+    t.attachFacet(facet);
   }
   static newInstance(trace:boolean):Facets{
     return new Facets();

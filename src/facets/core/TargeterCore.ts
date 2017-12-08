@@ -36,5 +36,6 @@ export class TargeterCore implements Targeter{
   private facets:Facet[]=[];
   attachFacet(f:Facet){
     if(!this.facets.includes(f))this.facets.push(f);
+    f.retarget(this.target_);
   }
 }
