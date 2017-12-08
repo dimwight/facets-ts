@@ -2,7 +2,8 @@ import {
   Target,
   TargetCore,
   Targeter,
-  Notifiable
+  Notifiable,
+  Facet
 } from './core/export';
 import{
   SimpleState,
@@ -45,6 +46,16 @@ interface SelectingFramePolicy {
   getIndexedContent?: any;
 }
 export class Facets{
+  attachFacet(title:string,facetUpdated:FacetUpdater):void{
+    let t:Targeter=this.titleTargeters.get(title);
+    if(!t)throw new Error('Missing t for '+title);
+    traceThing('> Attaching facet: title='+title);
+    t.attachFacet({
+      retarget(ta){
+        if(true)throw new Error('Not implemented for '+ta.title());
+      }
+    });
+  }
   static newInstance(trace:boolean):Facets{
     return new Facets();
   }
@@ -75,16 +86,13 @@ export class Facets{
   newTargetGroup(title:string,...members:Target[]):Target{
     return new TargetCore(title,members);
   }
-  attachFacet(title:string,facetUpdated:FacetUpdater):void{
-    let t:Targeter=this.titleTargeters.get(title);
-    if(!t)throw new Error('Missing t for '+title);
-    traceThing('> Attaching facet: title='+title);
-    t.attachFacet({}as Facet);
-  }
   updateTargetState(title:string,update:SimpleState):void{
-    throw new Error('Not implemented');
+    this.titleTarget(title).updateState(update);
   }
   getTargetState(title:string):SimpleState{
     throw new Error('Not implemented');
+  }
+  titleTarget(title:string):Target{
+    return this.titleTargeters.get(title).target();
   }
  }

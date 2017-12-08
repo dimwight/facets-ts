@@ -6,6 +6,7 @@ import {
   TargeterCore,
   NotifyingCore,
 } from './local';
+import { SimpleState } from '../../../index';
 export class TargetCore extends NotifyingCore implements Target {
   constructor(private readonly title_:string,private readonly elements_?:Target[]){
     super();
@@ -21,5 +22,8 @@ export class TargetCore extends NotifyingCore implements Target {
   }
   title(){
     return this.title_;
+  }
+  updateState(update:SimpleState){
+    console.log('Updating state in '+this.title());
   }
 }

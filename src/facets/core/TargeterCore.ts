@@ -1,4 +1,4 @@
-import {Target,Targeter,TargetCore} from './export';
+import {Target,Targeter,TargetCore,Facet} from './export';
 export class TargeterCore implements Targeter{
   private notifiable: any;
   private elements_: Targeter[];
@@ -32,5 +32,9 @@ export class TargeterCore implements Targeter{
   }
   elements():Targeter[]{
     return this.elements_;
+  }
+  private facets:Facet[]=[];
+  attachFacet(f:Facet){
+    if(!this.facets.includes(f))this.facets.push(f);
   }
 }
