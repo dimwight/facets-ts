@@ -67,7 +67,7 @@ export class Facets{
   targeterTree:Targeter;
   titleTargeters=new Map<string,Targeter>();
   buildTargeterTree(targetTree:Target):void{
-    traceThing(' > Initial retargeting on '+targetTree.title());
+    traceThing('> Initial retargeting on '+targetTree.title());
     let t=this.targeterTree=(<TargetCore>targetTree).newTargeter();
     t.setNotifiable(this.notifiable);
     t.retarget(targetTree);

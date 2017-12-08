@@ -24,6 +24,6 @@ export class TargetCore extends NotifyingCore implements Target {
     return this.title_;
   }
   updateState(update:SimpleState){
-    console.log('Updating state in '+this.title());
+    console.log('> Updated '+this.title()+' with update='+update);
   }
 }
