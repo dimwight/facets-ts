@@ -4,8 +4,11 @@ import {
   Targeter,
   Notifiable
 } from './core/export';
+import{
+  SimpleState,
+  FacetUpdater
+}from '../../index';
 import {traceThing} from './util/export';
-export type SimpleState=string|boolean|number;
 export interface TargetCoupler {
   targetStateUpdated?: (title: string, update: SimpleState) => void;
 }
@@ -72,11 +75,11 @@ export class Facets{
   newTargetGroup(title:string,...members:Target[]):Target{
     return new TargetCore(title,members);
   }
-  attachFacet(title:string,facetUpdated:(state:SimpleState)=>void):void{
-    let t=this.titleTargeters.get(title);
+  attachFacet(title:string,facetUpdated:FacetUpdater):void{
+    let t:Targeter=this.titleTargeters.get(title);
     if(!t)throw new Error('Missing t for '+title);
     traceThing('> Attaching facet: title='+title);
-    throw new Error('Not implemented');
+    t.attachFacet({}as Facet);
   }
   updateTargetState(title:string,update:SimpleState):void{
     throw new Error('Not implemented');

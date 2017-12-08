@@ -12,40 +12,38 @@ const unmatchables=[
 'function newInstance(trace: boolean): Facets;',
 'buildLayout(): void;',
 ];
-const src = 'index.d.ts', dest = 'index_.d.ts', facets = 'Facets.d.ts';
+const src = 'index.d.ts', dest = 'index_.d.ts', jSweet = 'Facets.d.ts';
 let unmatched = [];
 function main() {
   let content = fs.readFileSync(src, 'utf8').replace(_winBreak, '\n');
-  const checks: string[] = fs.readFileSync(facets, 'utf8').split(_winBreak)
-    .map(check => {
-    if (!check.match(/.*[:{].*/)
-      || check.match(/.*\*|__|\$.*/)
-      || check.includes('import')
-      || check.includes('constructor')
-      || check.includes('namespace')
-    ) check = '';
-    return check.trim()
+  const sweets: string[] = fs.readFileSync(jSweet, 'utf8').split(_winBreak)
+    .map(sweet => {
+    if (!sweet.match(/.*[:{].*/)
+      || sweet.match(/.*\*|__|\$.*/)
+      || sweet.includes('import')
+      || sweet.includes('constructor')
+      || sweet.includes('namespace')
+    ) sweet = '';
+    return sweet.trim()
       .replace(/:\s*\(/,' (')
       .replace(/=>/,':')
       .replace('Facets.', '');
   });
   const signatures = content.match(/\/\*\*[^/]+\/\s*\w[^\n]+/g)
-    .map(withComment => {
-      const sig=withComment.trim()
-        .replace(/\/\*\*[^/]+\/\s*/, '')
-        .replace(/export\s*(.*)/, '$1');
-      return sig;
-    });
+    .map(withComment => withComment.trim()
+      .replace(/\/\*\*[^/]+\/\s*/, '')
+      .replace(/export\s*(.*)/, '$1')
+    );
   signatures.forEach(checkSignature);
   fs.writeFileSync(dest, content);
   console.log('signatures=%s, unmatched=', signatures.length, unmatched);
   function checkSignature(sig: string) {
     if(unmatchables.includes(sig))return;
     let marker;
-    if (checks.includes(ts2sweety(sig))) marker = '=';
+    if (sweets.includes(ts2sweety(sig))) marker = '=';
     else {
       const name = sig.replace(/((\w+\s*)+).*/, '$1').trim();
-      checks.map(check => {
+      sweets.map(check => {
         if (check.replace(/(\w+).*/,'$1')===name) return check;
       }).forEach(nameMatch => {      
         if (nameMatch && (!marker||marker.startsWith('?'))){

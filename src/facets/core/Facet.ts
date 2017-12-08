@@ -1,3 +1,3 @@
-export interface Facet{
-  
+import { Retargetable } from './local';
+export interface Facet extends Retargetable{
 }
