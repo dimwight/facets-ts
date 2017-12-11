@@ -25,8 +25,10 @@ function newTargetTree():Target{
   return core.newTargetGroup('Textuals',first,second);
 }
 function buildLayout(){
+  let updater=(update)=>trace('Facet updated with '+update);
   trace('Building layout...');
-  core.attachFacet(Titles.First,update=>trace('Facet updated with '+update));
+  core.attachFacet(Titles.First,updater);
+  core.attachFacet(Titles.Second,updater);
 }
 function main(){
   if(false){
