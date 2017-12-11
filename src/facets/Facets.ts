@@ -35,7 +35,7 @@ interface IndexingState {
   uiSelectables: string[];
   indexed: any;
 }
-interface SelectingFramePolicy {
+interface IndexingFramePolicy {
   title: string;
   indexingTitle: string;
   content: any[];
