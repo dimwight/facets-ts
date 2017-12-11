@@ -24,7 +24,7 @@ function newTargetTree():Target{
   let second:Target=core.newTextualTarget(Titles.Second,coupler);
   return core.newTargetGroup('Textuals',first,second);
 }
-function buildLayout(){
+function buildLayout() {
   let updater=(update)=>trace('Facet updated with '+update);
   trace('Building layout...');
   core.attachFacet(Titles.First,updater);
