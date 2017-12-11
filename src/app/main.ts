@@ -9,23 +9,24 @@ import {traceThing,swapArrayElement} from '../facets/util/export';
 function trace(text){
   if(true)console.log('App > ' +text);
 }
-const TITLE_FIRST = 'First', TITLE_SECOND = 'Second';
-const core: Facets = Facets.newInstance(true);
-
+const Titles = {First:'First', Second: 'Second'};
+const core = Facets.newInstance(true);
 function newTargetTree():Target{
-  const text='Some text';
-  trace('.newTargetTree: text='+text);
   const coupler:TextualCoupler={
-    passText:text,
-    targetStateUpdated : (title) => trace('coupler.stateUpdated: title=' + title),
+    passText:'Some text for '+Titles.First,
+    getText:(title)=>'Got text for '+title,
+    targetStateUpdated : (title,update) =>
+     trace(title+' updated with update='+update),
   };
-  const first:Target=core.newTextualTarget(TITLE_FIRST,coupler),
-    second:Target=core.newTextualTarget(TITLE_SECOND,coupler);
+  let first:Target=core.newTextualTarget(Titles.First,coupler);
+  if(true)coupler.passText=null;
+  if(false)coupler.getText=null;
+  let second:Target=core.newTextualTarget(Titles.Second,coupler);
   return core.newTargetGroup('Textuals',first,second);
 }
 function buildLayout(){
-  trace('.buildLayout');
-  core.attachFacet(TITLE_FIRST,update=>trace('Facet updating with '+update));
+  trace('Building layout...');
+  core.attachFacet(Titles.First,update=>trace('Facet updated with '+update));
 }
 function main(){
   if(false){
@@ -37,7 +38,7 @@ function main(){
   buildLayout();
   trace('Attached and laid out facets');
   trace('Surface built');
-  core.updateTargetState(TITLE_FIRST,'Some updated text');
+  core.updateTargetState(Titles.First,'Some updated text');
 }
 main();
 
