@@ -59,7 +59,7 @@ export class Facets{
     t.attachFacet(facet);
   }
   static newInstance(trace:boolean):Facets{
-    return new Facets();
+    return new Facets ();
   }
   private notifiable:Notifiable;
   titleTargeters=new Map<string,Targeter>();
