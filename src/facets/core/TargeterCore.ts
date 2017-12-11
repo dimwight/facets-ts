@@ -33,9 +33,13 @@ export class TargeterCore implements Targeter{
   elements():Targeter[]{
     return this.elements_;
   }
-  private facets:Facet[]=[];
+  private facets_:Facet[]=[];
   attachFacet(f:Facet){
-    if(!this.facets.includes(f))this.facets.push(f);
+    if(!this.facets_.includes(f))this.facets_.push(f);
     f.retarget(this.target_);
+  }
+  retargetFacets(){
+    this.elements_.forEach(e=>e.retargetFacets());
+    this.facets_.forEach(f=>f.retarget(this.target_));
   }
 }

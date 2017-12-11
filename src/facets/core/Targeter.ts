@@ -6,4 +6,5 @@ export interface Targeter extends Notifiable,Retargetable{
   setNotifiable(n:Notifiable);
   elements():Targeter[];
   attachFacet(f:Facet);
+  retargetFacets();
 }

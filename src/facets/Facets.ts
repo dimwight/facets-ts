@@ -70,6 +70,7 @@ export class Facets{
       notify(notice){
         traceThing('> Notified with '+targeterTree.title());
         targeterTree.retarget(targeterTree.target());
+        targeterTree.retargetFacets();
       }
     };
     targeterTree.setNotifiable(this.notifiable);
