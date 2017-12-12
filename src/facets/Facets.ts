@@ -7,44 +7,10 @@ import {
 } from './core/export';
 import{
   SimpleState,
-  FacetUpdater
+  FacetUpdater,
+  TextualCoupler
 }from '../../index';
 import {traceThing} from './util/export';
-export interface TargetCoupler {
-  targetStateUpdated?: (title: string, update: SimpleState) => void;
-}
-export interface TextualCoupler extends TargetCoupler{
-  passText?:string;
-  getText?:(title:string)=>string;
-  isValidText?:(title:string,text:string)=>boolean;
-}
-interface TogglingCoupler extends TargetCoupler {
-  passSet: boolean;
-}
-interface NumericCoupler extends TargetCoupler {
-  passValue: number;
-  min: number;
-  max: number;
-}
-interface IndexingCoupler extends TargetCoupler{
-  passIndex:number;
-  getIndexables: (title: string) => any[];
-  getUiSelectables: (title: string) => string[];
-}
-interface IndexingState {
-  uiSelectables: string[];
-  indexed: any;
-}
-interface IndexingFramePolicy {
-  title: string;
-  indexingTitle: string;
-  content: any[];
-  getUiSelectables: () => string[];
-  newEditTargets: (indexed: any) => Targety[];
-  newFrameTargets?: () => Targety[];
-  frame?: Targety;
-  getIndexedContent?: any;
-}
 export class Facets{
   attachFacet(title:string,updater:FacetUpdater):void{
     let t:Targeter=this.titleTargeters.get(title);
