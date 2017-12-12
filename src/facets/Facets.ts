@@ -12,7 +12,13 @@ import{
   FacetsApp,
   Target
 }from './index';
-export * from './index';
+export{
+  SimpleState,
+  FacetUpdater,
+  TextualCoupler,
+  FacetsApp,
+  Target
+};
 import {traceThing} from './util/export';
 export function newInstance(trace:boolean):Facets{
   return new Facets();
@@ -74,6 +80,7 @@ export class Facets{
     return this.titleTargeters.get(title).target();
   }
   buildApp(app: FacetsApp){
+    throw new Error('Not implemented ');
 
   }
 }
