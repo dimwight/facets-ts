@@ -1,8 +1,8 @@
-import {Notifiable,Target,Facet} from './export';
+import {Notifiable,Targety,Facet} from './export';
 import {Retargetable} from './local';
 export interface Targeter extends Notifiable,Retargetable{
   title():string;
-  target():Target;
+  target():Targety;
   setNotifiable(n:Notifiable);
   elements():Targeter[];
   attachFacet(f:Facet);

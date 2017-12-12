@@ -1,19 +1,19 @@
-import {Target,Targeter,TargetCore,Facet} from './export';
+import {Targety,Targeter,TargetCore,Facet} from './export';
 export class TargeterCore implements Targeter{
   private notifiable: any;
   private elements_: Targeter[];
   private title_='Untargeted';
-  private target_:Target;
+  private target_:Targety;
   notify(notice){
     throw new Error('Not implemented in TargeterCore');
   }
   setNotifiable(notifiable){
     this.notifiable=notifiable;
   }
-  retarget(target:Target){
+  retarget(target:Targety){
     if(!target)throw new Error('Missing target');
     this.target_=target;
-    const targets:Target[]=target.elements();
+    const targets:Targety[]=target.elements();
     if(!this.elements_)this.elements_=targets.map<Targeter>(targety=>{
         let element=(<TargetCore>targety).newTargeter();
         element.setNotifiable(this);
@@ -26,7 +26,7 @@ export class TargeterCore implements Targeter{
   title(){
     return this.target_?this.target_.title():this.title_;
   }
-  target():Target{ 
+  target():Targety{ 
     if(!this.target_)throw new Error(this.title_);
     else return this.target_;
   }

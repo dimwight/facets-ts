@@ -1,4 +1,4 @@
-import {Target} from './export';
+import {Targety} from './export';
 export interface Retargetable{
-  retarget(t:Target);
+  retarget(t:Targety);
 }

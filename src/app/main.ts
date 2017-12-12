@@ -1,16 +1,15 @@
 import {
   Facets,
-  TextualCoupler,
-} from '../facets/export';
-import {
   Target,
-} from '../facets/core/export';
+  TextualCoupler,
+  newInstance,
+} from '../../index';
 import {traceThing,swapArrayElement} from '../facets/util/export';
 function trace(text){
   if(true)console.log('App > ' +text);
 }
 const Titles = {First:'First', Second: 'Second'};
-const core = Facets.newInstance(true);
+const core = newInstance(true);
 function newTargetTree():Target{
   const coupler:TextualCoupler={
     passText:'Some text for '+Titles.First,
@@ -22,7 +21,7 @@ function newTargetTree():Target{
   if(true)coupler.passText=null;
   if(false)coupler.getText=null;
   let second:Target=core.newTextualTarget(Titles.Second,coupler);
-  return core.newTargetGroup('Textuals',first,second);
+  return core.newTargetGroup('Textuals',[first,second]);
 }
 function buildLayout() {
   let updater=(update)=>trace('Facet updated with '+update);

@@ -1,5 +1,5 @@
 import {
-  Target,
+  Targety,
   TargetCore,
   Targeter,
   Notifiable,
@@ -40,9 +40,9 @@ interface IndexingFramePolicy {
   indexingTitle: string;
   content: any[];
   getUiSelectables: () => string[];
-  newEditTargets: (indexed: any) => Target[];
-  newFrameTargets?: () => Target[];
-  frame?: Target;
+  newEditTargets: (indexed: any) => Targety[];
+  newFrameTargets?: () => Targety[];
+  frame?: Targety;
   getIndexedContent?: any;
 }
 export class Facets{
@@ -51,7 +51,7 @@ export class Facets{
     if(!t)throw new Error('Missing t for '+title);
     traceThing('> Attaching facet: title='+title);
     let facet={
-      retarget(ta:Target){
+      retarget(ta:Targety){
         traceThing('> Facet retargeted title='+ta.title()+' state='+ta.state());
         updater(ta.state());
       }
@@ -63,7 +63,7 @@ export class Facets{
   }
   private notifiable:Notifiable;
   titleTargeters=new Map<string,Targeter>();
-  buildTargeterTree(targetTree:Target):void{
+  buildTargeterTree(targetTree:Targety):void{
     traceThing('> Initial retargeting on '+targetTree.title());
     let targeterTree=(<TargetCore>targetTree).newTargeter();
     this.notifiable={
@@ -84,14 +84,14 @@ export class Facets{
     traceThing('> Added targeter: title='+title+': elements='+elements.length);
     elements.forEach((e)=>this.addTitleTargeters(e));
   }
-  newTextualTarget(title:string,coupler:TextualCoupler):Target{
+  newTextualTarget(title:string,coupler:TextualCoupler):Targety{
     let textual=new TargetCore(title);
     textual.updateState(coupler.passText||
       (coupler.getText?coupler.getText(title):'No text supplied'));
     traceThing('> Created textual title='+title+' state='+textual.state());
     return textual;
   }
-  newTargetGroup(title:string,...members:Target[]):Target{
+  newTargetGroup(title:string,...members:Targety[]):Targety{
     return new TargetCore(title,members);
   }
   updateTargetState(title:string,update:SimpleState):void{
@@ -101,7 +101,7 @@ export class Facets{
   getTargetState(title:string):SimpleState{
     throw new Error('Not implemented');
   }
-  titleTarget(title:string):Target{
+  titleTarget(title:string):Targety{
     return this.titleTargeters.get(title).target();
   }
  }

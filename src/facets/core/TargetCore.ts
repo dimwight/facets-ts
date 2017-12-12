@@ -1,5 +1,5 @@
 import {
-  Target,
+  Targety,
   Targeter,
 } from './export';
 import {
@@ -8,12 +8,12 @@ import {
 } from './local';
 import { SimpleState } from '../../../index';
 import { Notifiable } from './Notifiable';
-export class TargetCore extends NotifyingCore implements Target {
+export class TargetCore extends NotifyingCore implements Targety {
   private state_:SimpleState='No state set';
   state(): SimpleState {
     return this.state_;
   }
-  constructor(private readonly title_:string,private readonly elements_?:Target[]){
+  constructor(private readonly title_:string,private readonly elements_?:Targety[]){
     super();
   }
   notifiesTargeter():boolean{
@@ -22,7 +22,7 @@ export class TargetCore extends NotifyingCore implements Target {
   newTargeter():Targeter{
     return new TargeterCore();
   }
-  elements():Target[]{
+  elements():Targety[]{
     return this.elements_?this.elements_:[];
   }
   title(){
