@@ -3,7 +3,7 @@ import {
   Target,
   TextualCoupler,
   newInstance,
-} from '../../index';
+} from '../facets/Facets';
 import {traceThing,swapArrayElement} from '../facets/util/export';
 import { SurfaceApp } from '../facets/SurfaceApp';
 function trace(text){

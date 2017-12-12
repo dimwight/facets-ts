@@ -8,9 +8,15 @@ import {
 import{
   SimpleState,
   FacetUpdater,
-  TextualCoupler
-}from '../../index';
+  TextualCoupler,
+  FacetsApp,
+  Target
+}from './index';
+export * from './index';
 import {traceThing} from './util/export';
+export function newInstance(trace:boolean):Facets{
+  return new Facets();
+}
 export class Facets{
   attachFacet(title:string,updater:FacetUpdater):void{
     let t:Targeter=this.titleTargeters.get(title);
@@ -23,9 +29,6 @@ export class Facets{
       }
     };
     t.attachFacet(facet);
-  }
-  static newInstance(trace:boolean):Facets{
-    return new Facets();
   }
   private notifiable:Notifiable;
   titleTargeters=new Map<string,Targeter>();
@@ -57,8 +60,8 @@ export class Facets{
     traceThing('> Created textual title='+title+' state='+textual.state());
     return textual;
   }
-  newTargetGroup(title:string,...members:Targety[]):Targety{
-    return new TargetCore(title,members);
+  newTargetGroup(title:string,...members:Target[]):Targety{
+    return new TargetCore(title,members as Targety[]);
   }
   updateTargetState(title:string,update:SimpleState):void{
     this.titleTarget(title).updateState(update);
@@ -70,4 +73,7 @@ export class Facets{
   titleTarget(title:string):Targety{
     return this.titleTargeters.get(title).target();
   }
- }
+  buildApp(app: FacetsApp){
+
+  }
+}

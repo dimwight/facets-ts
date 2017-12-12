@@ -1,5 +1,5 @@
 import {Notifying} from './local';
-import { SimpleState,Target} from '../../../index';
+import { SimpleState,Target} from '../../facets/Facets';
 export interface Targety extends Notifying,Target{
   title():string;
   elements():Targety[];
