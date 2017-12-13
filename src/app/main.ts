@@ -10,7 +10,6 @@ function trace(text){
   if(true)console.log('App > ' +text);
 }
 const Titles = {First:'First', Second: 'Second'};
-const core = newInstance(true);
 class App extends SurfaceApp{
   constructor(){
     super(newInstance(true));
@@ -22,18 +21,18 @@ class App extends SurfaceApp{
       targetStateUpdated : (title,update) =>
        trace(title+' updated with update='+update),
     };
-    let first:Target=core.newTextualTarget(Titles.First,coupler);
+    let first:Target=this.facets.newTextualTarget(Titles.First,coupler);
     if(true)coupler.passText=null;
     if(false)coupler.getText=null;
-    let second:Target=core.newTextualTarget(Titles.Second,coupler);
-    return core.newTargetGroup('Textuals',[first,second]);
+    let second:Target=this.facets.newTextualTarget(Titles.Second,coupler);
+    return this.facets.newTargetGroup('Textuals',[first,second]);
   }
   buildLayout(): void {
     let updater=(update)=>trace('Facet updated with '+update);
     trace('Building layout...');
-    core.attachFacet(Titles.First,updater);
-    core.attachFacet(Titles.Second,updater);
-    core.updateTargetState(Titles.First,'Some updated text');
+    this.facets.attachFacet(Titles.First,updater);
+    this.facets.attachFacet(Titles.Second,updater);
+    this.facets.updateTargetState(Titles.First,'Some updated text');
   }
   onRetargeted(){
 

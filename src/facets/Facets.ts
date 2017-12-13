@@ -25,7 +25,6 @@ export function newInstance(trace:boolean):Facets{
 }
 export class Facets{
   attachFacet(title:string,updater:FacetUpdater):void{
-    traceThing('attachFacet',this.titleTargeters);
     let t:Targeter=this.titleTargeters.get(title);
     if(!t)throw new Error('Missing targeter for '+title);
     traceThing('> Attaching facet: title='+title);
@@ -59,7 +58,6 @@ export class Facets{
     this.rootTargeter.setNotifiable(this.notifiable);
     this.rootTargeter.retarget(this.root);
     this.addTitleTargeters(this.rootTargeter);
-    traceThing('buildApp',this.titleTargeters);
     app.buildLayout();
   }
   buildTargeterTree(targetTree:Targety):void{
@@ -71,10 +69,9 @@ export class Facets{
   }
   addTitleTargeters(t:Targeter){
     let title=t.title();
-    this.titleTargeters.set(title,t);
     const elements:Targeter[]=t.elements();
-    traceThing('> Added targeter: title='+title+': elements='+elements.length,
-      this.titleTargeters.get(title));
+    this.titleTargeters.set(title,t);
+    traceThing('> Added targeter: title='+title+': elements='+elements.length);
     elements.forEach((e)=>this.addTitleTargeters(e));
   }
   newTextualTarget(title:string,coupler:TextualCoupler):Targety{
