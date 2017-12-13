@@ -74,7 +74,7 @@ export class Facets{
     this.titleTargeters.set(title,t);
     const elements:Targeter[]=t.elements();
     traceThing('> Added targeter: title='+title+': elements='+elements.length,
-      this.titleTargeters);
+      this.titleTargeters.get(title));
     elements.forEach((e)=>this.addTitleTargeters(e));
   }
   newTextualTarget(title:string,coupler:TextualCoupler):Targety{
