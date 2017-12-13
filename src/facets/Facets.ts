@@ -25,8 +25,9 @@ export function newInstance(trace:boolean):Facets{
 }
 export class Facets{
   attachFacet(title:string,updater:FacetUpdater):void{
+    traceThing('attachFacet',this.titleTargeters);
     let t:Targeter=this.titleTargeters.get(title);
-    if(!t)throw new Error('Missing t for '+title);
+    if(!t)throw new Error('Missing targeter for '+title);
     traceThing('> Attaching facet: title='+title);
     let facet={
       retarget(ta:Targety){
@@ -36,27 +37,44 @@ export class Facets{
     };
     t.attachFacet(facet);
   }
-  private notifiable:Notifiable;
+  private readonly notifiable:Notifiable={
+    notify:notice=>{
+      traceThing('> Notified with '+this.rootTargeter.title());
+      this.rootTargeter.retarget(this.rootTargeter.target());
+      this.rootTargeter.retargetFacets();
+    }
+  };
   titleTargeters=new Map<string,Targeter>();
+  root:Targety;
+  rootTargeter:Targeter;
+  addContentTree(tree:Targety){
+    this.root=tree;
+  }
+  buildApp(app: FacetsApp){
+    let trees=app.getContentTrees();
+    if(trees instanceof Array)
+      throw new Error('Not implemented for '+(trees as Array<Targety>).length);
+    else this.addContentTree((trees as Targety));
+    if(!this.rootTargeter)this.rootTargeter=(this.root as TargetCore).newTargeter();
+    this.rootTargeter.setNotifiable(this.notifiable);
+    this.rootTargeter.retarget(this.root);
+    this.addTitleTargeters(this.rootTargeter);
+    traceThing('buildApp',this.titleTargeters);
+    app.buildLayout();
+  }
   buildTargeterTree(targetTree:Targety):void{
     traceThing('> Initial retargeting on '+targetTree.title());
-    let targeterTree=(<TargetCore>targetTree).newTargeter();
-    this.notifiable={
-      notify(notice){
-        traceThing('> Notified with '+targeterTree.title());
-        targeterTree.retarget(targeterTree.target());
-        targeterTree.retargetFacets();
-      }
-    };
-    targeterTree.setNotifiable(this.notifiable);
-    targeterTree.retarget(targetTree);
-    this.addTitleTargeters(targeterTree);
+    this.rootTargeter=(targetTree as TargetCore).newTargeter();
+    this.rootTargeter.setNotifiable(this.notifiable);
+    this.rootTargeter.retarget(targetTree);
+    this.addTitleTargeters(this.rootTargeter);
   }
   addTitleTargeters(t:Targeter){
     let title=t.title();
     this.titleTargeters.set(title,t);
     const elements:Targeter[]=t.elements();
-    traceThing('> Added targeter: title='+title+': elements='+elements.length);
+    traceThing('> Added targeter: title='+title+': elements='+elements.length,
+      this.titleTargeters);
     elements.forEach((e)=>this.addTitleTargeters(e));
   }
   newTextualTarget(title:string,coupler:TextualCoupler):Targety{
@@ -66,7 +84,7 @@ export class Facets{
     traceThing('> Created textual title='+title+' state='+textual.state());
     return textual;
   }
-  newTargetGroup(title:string,...members:Target[]):Targety{
+  newTargetGroup(title:string,members:Target[]):Targety{
     return new TargetCore(title,members as Targety[]);
   }
   updateTargetState(title:string,update:SimpleState):void{
@@ -78,9 +96,5 @@ export class Facets{
   }
   titleTarget(title:string):Targety{
     return this.titleTargeters.get(title).target();
-  }
-  buildApp(app: FacetsApp){
-    throw new Error('Not implemented ');
-
   }
 }

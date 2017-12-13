@@ -9,6 +9,7 @@ import {
 import { SimpleState } from '../../facets/Facets';
 import { Notifiable } from './Notifiable';
 export class TargetCore extends NotifyingCore implements Targety {
+  private readonly type='TargetCore';
   private state_:SimpleState='No state set';
   state(): SimpleState {
     return this.state_;

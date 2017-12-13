@@ -1,4 +1,5 @@
 import {Targety,Targeter,TargetCore,Facet} from './export';
+import { traceThing } from '../util/export';
 export class TargeterCore implements Targeter{
   private notifiable: any;
   private elements_: Targeter[];
@@ -14,8 +15,9 @@ export class TargeterCore implements Targeter{
     if(!target)throw new Error('Missing target');
     this.target_=target;
     const targets:Targety[]=target.elements();
+    traceThing('^retarget',targets);
     if(!this.elements_)this.elements_=targets.map<Targeter>(targety=>{
-        let element=(<TargetCore>targety).newTargeter();
+        let element=(targety as TargetCore).newTargeter();
         element.setNotifiable(this);
         return element;
       });
