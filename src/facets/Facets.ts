@@ -10,7 +10,9 @@ import{
   FacetUpdater,
   TextualCoupler,
   FacetsApp,
-  Target
+  Target,
+  IndexingCoupler,
+  IndexingState
 }from './index';
 export{
   SimpleState,
@@ -80,6 +82,12 @@ export class Facets{
       (coupler.getText?coupler.getText(title):'No text supplied'));
     traceThing('> Created textual title='+title+' state='+textual.state());
     return textual;
+  }
+  newIndexingTarget(title:string,coupler:IndexingCoupler):Targety{
+    let indexing=new TargetCore(title);
+    indexing.updateState(coupler.passIndex||0);
+    traceThing('> Created indexing title='+title+' state='+indexing.state());
+    return indexing;
   }
   newTargetGroup(title:string,members:Target[]):Targety{
     return new TargetCore(title,members as Targety[]);

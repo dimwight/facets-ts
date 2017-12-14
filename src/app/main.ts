@@ -6,10 +6,11 @@ import {
 } from '../facets/Facets';
 import {traceThing,swapArrayElement} from '../facets/util/export';
 import { SurfaceApp } from '../facets/SurfaceApp';
+import { IndexingCoupler } from '../facets/index';
 function trace(text){
   if(true)console.log('App > ' +text);
 }
-const Titles = {First:'First', Second: 'Second'};
+const Titles = {First:'First', Second: 'Second',Indexing:'Indexing'};
 class App extends SurfaceApp{
   constructor(){
     super(newInstance(true));
@@ -25,7 +26,13 @@ class App extends SurfaceApp{
     if(true)coupler.passText=null;
     if(false)coupler.getText=null;
     let second:Target=this.facets.newTextualTarget(Titles.Second,coupler);
-    return this.facets.newTargetGroup('Textuals',[first,second]);
+    return this.facets.newTargetGroup('Textuals',[
+      first,
+      second,
+      this.facets.newIndexingTarget(Titles.Indexing,{
+        getIndexables:title=>[Titles.First,Titles.Second]
+      })
+    ]);
   }
   buildLayout(): void {
     let updater=(update)=>trace('Facet updated with '+update);
