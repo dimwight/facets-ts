@@ -16,11 +16,9 @@ export class Indexing extends TargetCore {
       return this.index_;
   }
   setIndex(index: number) {
-      let first: boolean = (this.index_ === null);
-      this.index_ = this.index_;
-      if (!first) {
-          this.coupler.indexSet(this);
-      }      
+      let first = !this.index_;
+      this.index_ = index;
+      if (!first)this.coupler.targetStateUpdated(this.state(),this.title());
   }
   indexables(): any[] {
       let indexables: any[] = this.coupler.getIndexables(this.title());
@@ -28,30 +26,26 @@ export class Indexing extends TargetCore {
           throw new Error('Null or empty indexables in ' + this);
       else return indexables;
   }
-  facetSelectables(): string[] {
-      return this.coupler.getFacetSelectables(this);
+  uiSelectables(): string[] {
+    let newSelectable=this.coupler.newUiSelectable
+        ||((indexable)=>(indexable as string));
+    return this.indexables().map(each=>newSelectable(each));      
   }
   indexed(): any {
-      if ((this.index_ === null)) {
-          throw new Error(('No index in ' + this.title()));
-      }
-      else {
-          return this.indexables()[this.index_];
-      }      
+      if (!this.index_)throw new Error(('No index in ' + this.title()));
+      else return this.indexables()[this.index_];
   }
   setIndexed(indexable: any) {
-      let indexables: any[] = this.indexables();
-      for (let i= 0; (i < indexables.length); i++) {
-          if ((indexables[i] === indexable)) {
-              this.setIndex(i);
+      for(const [at,i] of this.indexables().entries())
+          if (i === indexable) {
+              this.setIndex(i as number);
               break;
           }          
-      }
   }
   state(): any {
       return this.index_;
   }
   updateState(update: any) {
-      this.setIndex((<number>(update)));
+      this.setIndex(update);
   }
 }
