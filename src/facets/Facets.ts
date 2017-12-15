@@ -12,7 +12,7 @@ import{
   FacetsApp,
   Target,
   IndexingCoupler,
-  IndexingState
+  IndexingState,
 }from './index';
 export{
   SimpleState,
@@ -83,12 +83,6 @@ export class Facets{
     traceThing('> Created textual title='+title+' state='+textual.state());
     return textual;
   }
-  newIndexingTarget(title:string,coupler:IndexingCoupler):Targety{
-    let indexing=new TargetCore(title);
-    indexing.updateState(coupler.passIndex||0);
-    traceThing('> Created indexing title='+title+' state='+indexing.state());
-    return indexing;
-  }
   newTargetGroup(title:string,members:Target[]):Targety{
     return new TargetCore(title,members as Targety[]);
   }
@@ -101,5 +95,22 @@ export class Facets{
   }
   titleTarget(title:string):Targety{
     return this.titleTargeters.get(title).target();
+  }
+  newIndexingTarget(title:string,coupler:IndexingCoupler):Targety{
+    let indexing=new Indexing(title,coupler);
+    indexing.updateState(coupler.passIndex||0);
+    traceThing('> Created indexing title='+title+' state='+indexing.state());
+    return indexing;
+  }
+  getIndexingState(title: string): IndexingState{
+    return {
+      indexed:'',
+      uiSelectables:[]
+    };
+  }
+}
+export class Indexing extends TargetCore{
+  constructor(title:string,private readonly coupler:IndexingCoupler){
+    super(title);
   }
 }

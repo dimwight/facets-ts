@@ -30,7 +30,8 @@ class App extends SurfaceApp{
       first,
       second,
       this.facets.newIndexingTarget(Titles.Indexing,{
-        getIndexables:title=>[Titles.First,Titles.Second]
+        getIndexables:title=>[Titles.First,Titles.Second],
+        passIndex:1
       })
     ]);
   }
@@ -39,6 +40,10 @@ class App extends SurfaceApp{
     trace('Building layout...');
     this.facets.attachFacet(Titles.First,updater);
     this.facets.attachFacet(Titles.Second,updater);
+    this.facets.attachFacet(Titles.Indexing,(update)=>{
+      traceThing('Indexing facet updated with ',
+        this.facets.getIndexingState(Titles.Indexing));
+    });
     this.facets.updateTargetState(Titles.First,'Some updated text');
   }
   onRetargeted(){
