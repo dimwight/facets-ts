@@ -31,6 +31,7 @@ export class TargetCore extends NotifyingCore implements Targety {
     return this.title_;
   }
   updateState(update:SimpleState){
-    console.log('> Updated '+this.title()+' with state='+(this.state_=update));
+    this.state_=update;
+    console.log('> Updated '+this.title()+' with state='+this.state());
   }
 }
