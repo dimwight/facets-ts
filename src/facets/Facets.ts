@@ -3,7 +3,8 @@ import {
   TargetCore,
   Targeter,
   Notifiable,
-  Facet
+  Facet,
+  Indexing
 } from './core/export';
 import{
   SimpleState,
@@ -103,14 +104,11 @@ export class Facets{
     return indexing;
   }
   getIndexingState(title: string): IndexingState{
-    return {
-      indexed:'',
-      uiSelectables:[]
+    let i:Indexing=this.titleTarget(title) as Indexing;
+    if(!i)throw new Error('No target for title='+title);
+    else return {
+      uiSelectables:i.uiSelectables(),
+      indexed:i.indexed(),
     };
-  }
-}
-export class Indexing extends TargetCore{
-  constructor(title:string,private readonly coupler:IndexingCoupler){
-    super(title);
   }
 }

@@ -41,7 +41,7 @@ class App extends SurfaceApp{
     this.facets.attachFacet(Titles.First,updater);
     this.facets.attachFacet(Titles.Second,updater);
     this.facets.attachFacet(Titles.Indexing,(update)=>{
-      traceThing('Indexing facet updated with ',
+      traceThing('> Indexing facet updated with ',
         this.facets.getIndexingState(Titles.Indexing));
     });
     this.facets.updateTargetState(Titles.First,'Some updated text');

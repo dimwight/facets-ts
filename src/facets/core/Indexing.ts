@@ -14,18 +14,18 @@ export class Indexing extends TargetCore {
     return this.state_ as number;
   }
   setIndex(index: number) {
-    let first = this.state_===TargetCore.NoState;
+    const first = this.state_===TargetCore.NoState;
     this.state_ = index;
     if (!first)this.coupler.targetStateUpdated(this.state_,this.title());
   }
   indexables(): any[] {
-    let indexables: any[] = this.coupler.getIndexables(this.title());
+    const indexables: any[] = this.coupler.getIndexables(this.title());
     if (!indexables||indexables.length === 0) 
         throw new Error('Missing or empty indexables in ' + this);
     else return indexables;
   }
   uiSelectables(): string[] {
-    let getSelectable=this.coupler.newUiSelectable||((i)=>(i as string));
+    const getSelectable=this.coupler.newUiSelectable||((i)=>(i as string));
     return this.indexables().map(i=>getSelectable(i));      
   }
   indexed(): any {
