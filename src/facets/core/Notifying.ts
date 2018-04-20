@@ -1,4 +1,4 @@
-import {Notifiable} from './Notifiable';
+import {Notifiable} from './local';
 export interface Notifying extends Notifiable{
   setNotifiable(n:Notifiable);
   notifiable():Notifiable;
