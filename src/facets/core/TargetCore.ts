@@ -7,7 +7,7 @@ import {
   NotifyingCore,
 } from './local';
 import { SimpleState } from '../../facets/Facets';
-import { Notifiable } from './Notifiable';
+import { Notifiable } from './local';
 export class TargetCore extends NotifyingCore implements Targety {
   private readonly type='TargetCore';
   protected static NoState='No state set';
